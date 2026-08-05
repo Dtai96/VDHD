@@ -415,7 +415,7 @@ def analyze_threat():
     text = data.get("text", "")
 
     keywords_phishing = ["chuyển tiền", "mật khẩu", "otp", "ngân hàng", "gấp", "click", "m&a", "cập nhật", "truy cập", "hạn chót", "phong tỏa"]
-    keywords_deepfake = ["video call", "sân bay", "sóng yếu", "chủ tịch", "cfo", "giám đốc", "thanh tra", "giọng nói"]
+    keywords_deepfake = ["video call", "sân bay", "sóng yếu", "chủ tịch", "cfo", "giám đốc", "thanh tra", "giọng nói","công an"]
 
     score_phishing = sum(1 for k in keywords_phishing if re.search(k, text, re.IGNORECASE))
     score_deepfake = sum(1 for k in keywords_deepfake if re.search(k, text, re.IGNORECASE))

@@ -1,0 +1,8 @@
+.example-img {
+    transition: transform 0.2s ease, filter 0.2s ease;
+    cursor: pointer;
+}
+.example-img:hover {
+    filter: brightness(0.9);
+    transform: scale(1.01);
+}
