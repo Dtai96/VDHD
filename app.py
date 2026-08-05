@@ -127,146 +127,184 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-# KỊCH BẢN CHI TIẾT NÂNG CẠO THEO VAI TRÒ
+# KỊCH BẢN CHÍNH
 ROLE_SCENARIOS = {
     "accountant": [
         {
             "id": "acc_1",
-            "type": "Spear Phishing",
-            "title": "Email [GẤP - MẬT] Chỉ đạo Thanh toán Hợp đồng Tư vấn M&A Dự án Q3",
-            "desc": "Email mạo danh CEO yêu cầu Kế toán trưởng ủy nhiệm chi gấp 245 triệu cho Đơn vị Tư vấn Pháp lý trước 16h30.",
-            "trap_reason": "Bạn đã sập bẫy Giả mạo Lãnh đạo (CEO Scam)! Email sử dụng tên miền mạo danh @company-executive-portal.com (tên miền thật là @company.com). Quy trình an toàn: Tuyệt đối không chuyển tiền chỉ dựa vào Email/Tin nhắn mà không xác minh qua Kênh thứ 2 (Out-of-band) như gọi điện trực tiếp cho CEO hoặc Kế toán trưởng.",
-            "content": "Chào chị Kế toán trưởng và Ban Tài chính,\n\nTôi đang trong phiên họp kín với Hội đồng Quản trị và các đối tác Quỹ đầu tư nước ngoài để chốt hợp đồng M&A dự án mới. Vì lý do bảo mật thông tin niêm yết, hợp đồng này chưa thể công bố rộng rãi trong toàn công ty.\n\nĐể đảm bảo thỏa thuận không bị hủy bỏ, vui lòng thực hiện lệnh ủy nhiệm chi khẩn cấp số tiền 245.000.000 VNĐ (Hai trăm bốn mươi lăm triệu đồng) cho Đơn vị Tư vấn Pháp lý độc lập theo thông tin hóa đơn đính kèm. Hạn chót hoàn tất giao dịch là trước 16:30 chiều nay.\n\nVui lòng truy cập đường dẫn sau để xem Hóa đơn & Dự thảo ủy nhiệm chi: http://company-executive-portal.com/invoice-ma-q3\n\nLưu ý: Do tính chất bảo mật của thương vụ, tuyệt đối không thảo luận qua Chat nhóm chung hay hỏi lại các phòng ban khác."
+            "type": "Phishing",
+            "title": "Cảnh báo Quyết toán Thuế TNCN & Hoàn trả Chi phí Dư Q2/2026 (Portal Kế toán)",
+            "desc": "Email giả mạo Phòng Tài chính - Kế toán thông báo khoản hoàn trả chi phí thâm niên & thuế TNCN, thúc giục đăng nhập Cổng đối soát trước 17h00 để nhận tiền.",
+            "trap_reason": "Bạn đã bị dụ bấm vào trang Phishing cướp tài khoản SSO/Email công ty! Kẻ tấn công lợi dụng tâm lý tò mò về quyền lợi tài chính cá nhân và tạo áp lực thời gian (trước 17h00) để bạn đăng nhập mà không đối soát nội bộ.",
+            "content": "Kính gửi Chị Kế toán trưởng và Ban Tài chính - Kế toán,\n\nBộ phận Kế toán Tổng hợp vừa hoàn tất công tác đối soát chi phí hoạt động và quỹ lương Q2/2026. Qua kiểm tra dữ liệu đóng thuế TNCN và các khoản phụ cấp hoàn ứng thâm niên, hệ thống ghi nhận tài khoản của Anh/Chị nằm trong danh sách được hoàn trả khoản chi phí dư (Mức hoàn trả dao động từ 2.400.000 VNĐ đến 6.800.000 VNĐ tùy theo thâm niên công tác).\n\nĐể Bộ phận Thủ quỹ tiến hành giải ngân lệnh chuyển khoản tự động trong đợt quyết toán chiều nay, Anh/Chị vui lòng kiểm tra bảng kê chi tiết và xác nhận số tài khoản thụ hưởng theo quy trình:\n1. Truy cập vào Cổng Đối soát Tài chính Doanh nghiệp: http://ketoan-quyettoan-company-finance-portal.net/tax-refund-2026\n2. Đăng nhập bằng Email Công ty để xác thực mã định danh nhân sự.\n3. Kiểm tra số tiền hoàn trả và bấm \"Xác nhận giải ngân\".\n\n(Lưu ý: Các trường hợp không xác nhận trước 17h00 hôm nay sẽ phải chờ chuyển sang đợt quyết toán của Quý IV).",
+            "correct_action": "Không truy cập liên kết lạ. Kiểm tra lại địa chỉ gửi, xác minh trực tiếp với bộ phận Kế toán tổng hợp/Nhân sự nội bộ."
         },
         {
-            "id": "acc_video_2",
-                        "type": "Deepfake Video Call",
-                        "title": "Cuộc gọi khẩn cấp từ Giám đốc Tài chính: Duyệt lệnh chuyển tiền gấp qua video",
-                        "desc": "Nhân viên kế toán nhận được cuộc gọi video từ tài khoản của Giám đốc tài chính (CFO)...",
-                        "video_url": "/statics/videos/test.mp4",  # Đường dẫn tới file video có sẵn của bạn
-                        "duration": "00:10",
-                        "video_script": "Chào em, anh đang kẹt ở phòng chờ sân bay...",
-                        "subtle_clues": [
-                            "Tần suất chớp mắt ít hơn bình thường.",
-                            "Viền cổ và tai có vùng mờ nhòe.",
-                            "Âm thanh lệch pha so với khẩu hình môi."
-                        ],
-                        "correct_action": "Cúp máy ngay lập tức và xác thực lại qua số điện thoại nội bộ chính thống."
-        },
-        {
-            "id": "acc_2_2",
-            "type": "Deepfake Call",
-            "title": "Video Call Deepfake #2: Chủ tịch HĐQT Giả mạo Báo Lỗi Kiểm toán Thuế Khẩn",
-            "desc": "Chủ tịch HĐQT xuất hiện qua Video Call thông báo đang thanh tra Thuế và cần nộp phạt gấp 150 triệu.",
-            "trap_reason": "Bạn đã sập bẫy Deepfake mạo danh Chủ tịch! Kẻ gian dùng AI tổng hợp khuôn mặt Chủ tịch từ các video sự kiện công ty. Quy trình an toàn: Xác minh lại quy trình tài chính và kiểm tra tính pháp lý của quyết định thanh tra.",
-            "content": "\"Chào em, anh đang ngồi làm việc trực tiếp với Đoàn Thanh tra Thuế TP. Hệ thống kế toán bên mình bị phát hiện lệch sổ sách 3 năm qua và họ đang dọa phong tỏa tài khoản ngân hàng công ty ngay trong hôm nay.\n\nAnh cần em chuyển ngay 150 triệu vào tài khoản ký quỹ của Thanh tra để tạm hoãn lệnh phong tỏa trong lúc anh giải trình. Làm gấp giúp anh, tình huống này rất nguy cấp!\""
+            "id": "acc_2",
+            "type": "Deepfake Video Call",
+            "title": "Cuộc gọi Video Deepfake từ Con Gái: Nhập Viện Khẩn Cấp Cần Chuyển Tiền Gấp",
+            "desc": "Mẹ nhận được cuộc gọi video ngắn từ tài khoản con gái thông báo đang nhập viện khẩn cấp và cần chuyển ngay 1 triệu đồng, dặn mẹ không gọi lại ngay.",
+            "video_url": "/statics/videos/test1.mp4",
+            "duration": "00:13",
+            "video_script": "Con chào mẹ. Con là Trang đây. Mẹ ơi hiện tại con đang nhập viện. Mẹ có thể chuyển tiền cho con một triệu được không? Mẹ gọi sau cho con nha?",
+            "subtle_clues": [
+                "Tần suất chớp mắt của con gái ít bất thường, ánh mắt thiếu tự nhiên.",
+                "Vùng da quanh viền cổ, tai và đường nét khuôn mặt bị mờ nhòe khi nhân vật di chuyển.",
+                "Giọng nói có âm thanh kim loại nhẹ, bị đứt đoạn và lệch pha so với khẩu hình môi.",
+                "Đối phương chủ động hối thúc chuyển tiền và dặn 'gọi sau' để tránh bị phát hiện qua cuộc gọi thoại trực tiếp."
+            ],
+            "correct_action": "Bình tĩnh cúp máy ngay lập tức, tuyệt đối không chuyển tiền. Gọi trực tiếp lại cho con gái qua số điện thoại di động thông thường (hoặc gọi cho bạn bè/người thân đi cùng con) để xác thực thông tin.",
+            "trap_reason": "Bạn đã sập bẫy Deepfake Video Call mạo danh Người thân! Kẻ gian dùng AI thu thập hình ảnh, video và giọng nói của con gái trên mạng xã hội để cắt ghép, tạo áp lực tâm lý hoảng loạn nhằm chiếm đoạt tài sản."
         },
         {
             "id": "acc_3",
-            "type": "Multi-stage Scam",
-            "title": "Cảnh báo Lỗi Giao dịch Ngân hàng Doanh nghiệp (SMS Brandname)",
-            "desc": "Tin nhắn giả mạo Ngân hàng thông báo lệnh chuyển tiền bị dừng, yêu cầu truy cập link Phishing để nhập OTP.",
-            "trap_reason": "Bạn đã bị dụ bấm vào trang web Phishing cướp tài khoản Ngân hàng! Ngân hàng không bao giờ gửi đường link yêu cầu nhập Mật khẩu / mã OTP hủy giao dịch qua SMS. Luôn kiểm tra địa chỉ Web chính thức.",
-            "content": "[Vietcombank-iB Alert]: Hệ thống phát hiện Lệnh chuyển tiền số ID-883921 (Số tiền: 500,000,000 VND) của Quý khách bị tạm dừng do nghi vấn giao dịch bất thường. Nếu KHÔNG phải bạn thực hiện, vui lòng truy cập ngay https://vcb-digibank-corp-verify.net để hủy lệnh và xác thực lại mã OTP Doanh nghiệp trước 17:00."
+            "type": "Social Engineering",
+            "title": "Giả danh Cán bộ Thanh tra Thuế Cảnh báo Lỗi Sổ sách & Đe dọa Phong tỏa Tài khoản Doanh nghiệp",
+            "desc": "Kẻ gian đóng vai Cán bộ Thuế gọi điện và gửi văn bản giả tạo áp lực phong tỏa tài khoản ngân hàng công ty trong 24h nếu không làm thủ tục ký quỹ tạm thời.",
+            "trap_reason": "Bạn đã bị thao túng tâm lý bởi chiêu trò mạo danh Cơ quan Công quyền! Cơ quan Thuế không bao giờ làm việc qua điện thoại yêu cầu chuyển tiền vào tài khoản cá nhân hay 'tài khoản ký quỹ tạm thời' để hoãn lệnh phong tỏa.",
+            "content": "\"Chào chị Kế toán trưởng, tôi là Nguyễn Văn Nam - Cán bộ Chi cục Thuế TP. Qua đối soát dữ liệu hóa đơn điện tử Q2/2026, hệ thống phát hiện doanh nghiệp mình bị lệch sổ sách VAT và chi phí đầu vào lên tới 1.2 tỷ VNĐ. Hiện tại Đoàn Thanh tra đã lập hồ sơ vi phạm và dự kiến ban hành quyết định phong tỏa toàn bộ tài khoản ngân hàng doanh nghiệp trong 24h tới.\n\nTuy nhiên, để tạo điều kiện cho doanh nghiệp giải trình và bổ sung chứng từ mà không làm gián đoạn dòng tiền vận hành, chị cần làm thủ tục đóng tiền ký quỹ tạm thời 150.000.000 VNĐ vào Tài khoản Tạm thu của Thanh tra Thuế trước 11h30 sáng nay. Tôi sẽ gửi văn bản dấu đỏ qua Zalo cho chị kiểm tra ngay!\""
+        },
+        {
+            "id": "acc_4",
+            "type": "Spear Phishing & Vishing",
+            "title": "Kịch bản Kép: Email Hóa đơn Logistics Sai lệch kết hợp Cuộc gọi Giả danh Kế toán trưởng Đối tác",
+            "desc": "Kẻ tấn công gửi Email Phishing chứa link Hóa đơn điện tử điều chỉnh, sau đó gọi điện (Vishing) đóng vai Kế toán đối tác hối thúc Kế toán truy cập xác nhận.",
+            "trap_reason": "Bạn đã sập bẫy Tấn công Đa kênh (Spear Phishing + Vishing)! Kẻ gian kết hợp Email nhắm mục tiêu chính xác kèm cuộc gọi hối thúc nhằm làm giảm sự cảnh giác và xóa bỏ nghi ngờ của nạn nhân.",
+            "content": "✉️ EMAIL: [GẤP] Biên bản nghiệm thu & Yêu cầu điều chỉnh Hóa đơn điện tử lô hàng Logistics #HD2026-88.\nNgười gửi: Đỗ Thùy Linh - Kế toán trưởng <linh.dt@doitac-logistics-corp.com>\nNội dung: Kính gửi Bộ phận Kế toán, lô hàng đợt 2 đã bàn giao xong nhưng mã số thuế và bảng đối soát của Quý công ty đang bị lệch. Nhờ Anh/Chị truy cập Cổng Hóa đơn Điện tử tại http://doitac-logistics-corp.com/invoice-check để xem biên bản và xác nhận bảng kê điều chỉnh trước 16h00 để bên tôi xuất lại VAT chuẩn.\n\n📞 VISHING (CUỘC GỌI): \"Alo em ơi, chị Linh Kế toán trưởng bên Logistics đợt hàng #HD2026-88 đây. Chị vừa gửi email hóa đơn điều chỉnh đấy, em bấm vào link xác nhận gấp giúp chị để bên chị kịp xuất lại VAT trong chiều nay nhé, sếp bên chị đang hối dữ lắm!\""
         }
     ],
+
     "hr": [
         {
             "id": "hr_1",
-            "type": "Spear Phishing",
-            "title": "CV Ứng tuyển Cấp cao Chứa Mã độc Mã hóa Dữ liệu (Ransomware)",
-            "desc": "Email từ ứng viên vị trí Giám đốc đính kèm file Ho_So_Nang_Luc.zip có mật khẩu và yêu cầu Bật Macro/Enable Content.",
-            "trap_reason": "Bạn đã kích hoạt Mã độc Mã hóa Dữ liệu (Ransomware)! Kẻ tấn công dùng file .zip có mật khẩu để qua mặt các hệ thống Quét Virus tự động của Email. Việc yêu cầu 'Enable Macro/Content' trong file Word thực chất là chạy script độc hại đánh cắp dữ liệu máy tính.",
-            "content": "Kính gửi Ban Giám đốc và Bộ phận Nhân sự (HR),\n\nTôi xin gửi Hồ sơ ứng tuyển vị trí Giám đốc Kinh doanh theo thông tin tuyển dụng của Công ty. Tôi có hơn 10 năm kinh nghiệm điều hành tại các Tập đoàn đa quốc gia.\n\nDo thông tin về Bảng lương cũ và Danh sách Dự án đã từng thực hiện có tính chất bảo mật riêng tư, tôi đã nén toàn bộ văn bằng, CV và Bảng lương vào file đính kèm dưới dạng mã hóa:\n📁 File đính kèm: Ho_So_Nang_Luc_Ung_Vien_NguyenVanHung.zip (Mật khẩu giải nén: 123456)\n\nVui lòng giải nén, mở file Word và bấm \"Enable Editing / Enable Content\" để xem đầy đủ nội dung dự án. Rất mong nhận được phản hồi lịch phỏng vấn."
+            "type": "Phishing",
+            "title": "Email Giả mạo Công đoàn: Mở đăng ký Gói Phúc lợi Kỳ nghỉ 5 Sao & Quỹ Tiết kiệm Sinh lời 2026",
+            "desc": "Email giả mạo Công đoàn dụ nhân viên HR đăng nhập tài khoản Microsoft 365 để nhận Voucher du lịch 15 triệu và đăng ký Quỹ tiết kiệm lãi suất 12%/năm.",
+            "trap_reason": "Bạn đã bị đánh cắp tài khoản Email Doanh nghiệp! Cổng đăng nhập mạo danh congdoan-phucloi-company-portal.com thu thập Tên đăng nhập & Mật khẩu của bạn thông qua bẫy lợi ích kinh tế.",
+            "content": "Kính gửi Toàn thể Cán bộ Nhân viên & Bộ phận HR,\n\nNhằm tri ân những đóng góp của cán bộ nhân viên, Ban Chấp hành Công đoàn phối hợp cùng Ban Giám đốc chính thức phát động Chương trình Phúc lợi Đặc biệt 2026 với 2 hạng mục ưu đãi lớn:\n1. Tặng Voucher Hợp đồng Kỳ nghỉ 5 Sao (Trị giá 15.000.000 VNĐ): Áp dụng cho gia đình 4 người tại các khu nghỉ dưỡng thuộc hệ thống đối tác toàn quốc.\n2. Quỹ Hợp tác Tiết kiệm Sinh lời Nội bộ: Nhân viên đăng ký gửi tích lũy phúc lợi từ 1.000.000 VNĐ sẽ nhận ngay tiền mặt thưởng 500.000 VNĐ và hưởng lãi suất ưu đãi nội bộ 12%/năm.\n\nDo số lượng suất quà tặng có hạn (chỉ dành cho 50 nhân viên đăng ký sớm nhất), kính mời Anh/Chị nhanh chóng đăng ký trực tuyến:\n👉 Truy cập Cổng Phúc lợi: http://congdoan-phucloi-company-portal.com/register-benefit\n👉 Đăng nhập tài khoản Email Công ty để xác nhận mã định danh nhân viên.",
+            "correct_action": "Báo cáo Email Phishing cho bộ phận IT Security. Không đăng nhập thông tin công ty vào các trang web ngoài hệ thống."
         },
         {
             "id": "hr_2",
             "type": "Deepfake Video Call",
-            "title": "Cuộc gọi khẩn cấp từ Giám đốc Tài chính: Duyệt lệnh chuyển tiền gấp qua video",
-                "desc": "Nhân viên kế toán nhận được cuộc gọi video từ tài khoản của Giám đốc tài chính (CFO)...",
-                "video_url": "/statics/videos/test1.mp4",  # Đường dẫn tới file video có sẵn của bạn
-                "duration": "00:10",
-                "video_script": "Chào em, anh đang kẹt ở phòng chờ sân bay...",
-                "subtle_clues": [
-                    "Tần suất chớp mắt ít hơn bình thường.",
-                    "Viền cổ và tai có vùng mờ nhòe.",
-                    "Âm thanh lệch pha so với khẩu hình môi."
-                ],
-                "correct_action": "Cúp máy ngay lập tức và xác thực lại qua số điện thoại nội bộ chính thống."
+            "title": "Cuộc gọi Video Deepfake từ Con Trai: Xin Tiền Đóng Học Phí Gấp",
+            "desc": "Mẹ nhận được cuộc gọi video ngắn từ tài khoản con trai thông báo sắp đến hạn đóng học phí và xin gấp 10 triệu đồng, dặn mẹ gọi lại sau.",
+            "video_url": "/statics/videos/test2.mp4",
+            "duration": "00:13",
+            "video_script": "Con chào mẹ, Con là Phúc con sắp đóng học phí, mẹ cho con xin 10 triệu để đóng học phí nhé, Mẹ gọi lại con sau nha?",
+            "subtle_clues": [
+                "Khẩu hình miệng không khớp hoàn toàn với âm thanh thoại.",
+                "Cảnh nền phía sau bị đơ (tĩnh) hoặc nhòe bất thường.",
+                "Tốc độ nói nhanh đột biến, cố tình ngắt kết nối sớm và dặn 'gọi sau' để tránh bị xác minh qua cuộc gọi kéo dài."
+            ],
+            "correct_action": "Bình tĩnh cúp máy, tuyệt đối không chuyển tiền ngay. Chủ động gọi lại cho con trai qua số di động thông thường hoặc liên hệ nhà trường/bạn bè cùng lớp để xác thực thông tin đóng học phí.",
+            "trap_reason": "Bạn đã sập bẫy Deepfake Video Call mạo danh Người thân! Kẻ gian dùng AI thu thập hình ảnh và giọng nói của con trai trên mạng xã hội để dựng video giả mạo, lợi dụng tâm lý lo lắng cho việc học của con để lừa đảo chiếm đoạt tài sản."
         },
         {
             "id": "hr_3",
-            "type": "Multi-stage Scam",
-            "title": "Cập nhật Quy chế Lương thưởng & Đánh giá KPI Năm 2026",
-            "desc": "Email giả danh Phòng CNTT gửi link đăng nhập Microsoft 365 giả mạo để xem file KPI.",
-            "trap_reason": "Bạn đã bị đánh cắp Tài khoản Microsoft 365 / Email Công ty! Cổng đăng nhập mạo danh portal-office365-corp-update.com thu thập Tên đăng nhập & Mật khẩu của bạn.",
-            "content": "Kính gửi Toàn thể Cán bộ Nhân viên,\n\nBan Giám đốc vừa phê duyệt Quy chế Tính thưởng KPI và Điều chỉnh Bảng lương mới áp dụng từ Q3/2026. Tất cả nhân sự bắt buộc phải truy cập để xác nhận thông tin thụ hưởng và mức đóng BHXH mới.\n\nVui lòng đăng nhập vào Hệ thống Portal Nhân sự Công ty tại link: http://portal-office365-corp-update.com/kpi-2026\n\n(Lưu ý: Sử dụng Mật khẩu Email công ty để xác thực quyền truy cập)."
+            "type": "Social Engineering",
+            "title": "Bẫy File CV Mã độc Ransomware: Ứng tuyển Vị trí Cấp cao Yêu cầu 'Enable Macro' để xem Bảng lương",
+            "desc": "Email ứng tuyển vị trí Giám đốc Kinh doanh đính kèm file .zip có mật khẩu, yêu cầu HR mở file Word và bấm Enable Content để giải mã hồ sơ bảo mật.",
+            "trap_reason": "Bạn đã kích hoạt Mã độc Mã hóa Dữ liệu (Ransomware)! Kẻ tấn công dùng file nén có mật khẩu để vượt qua hệ thống Quét Virus tự động. Thao tác 'Enable Content' chính là chạy Script độc hại mã hóa máy tính.",
+            "content": "Kính gửi Ban Giám đốc và Bộ phận Nhân sự (HR),\n\nTôi xin gửi Hồ sơ ứng tuyển vị trí Giám đốc Kinh doanh theo thông tin tuyển dụng của Công ty. Tôi có hơn 10 năm kinh nghiệm điều hành tại các Tập đoàn đa quốc gia.\n\nDo thông tin về Bảng lương cũ, Danh sách Dự án và Cam kết Doanh số có tính chất bảo mật riêng tư, tôi đã nén toàn bộ tài liệu vào file đính kèm dưới dạng mã hóa:\n📁 File đính kèm: Ho_So_Nang_Luc_Ung_Vien_NguyenVanHung.zip (Mật khẩu giải nén: 123456)\n\nVui lòng giải nén, mở file Word và bấm \"Enable Editing / Enable Content\" trên thanh công cụ để hệ thống tự động giải mã văn bản. Rất mong nhận được phản hồi lịch phỏng vấn."
+        },
+        {
+            "id": "hr_4",
+            "type": "Spear Phishing & Vishing",
+            "title": "Kịch bản Kép: Email Hồ sơ Ứng viên Senior từ TGĐ kết hợp Cuộc gọi Giả mạo Headhunter hối thúc",
+            "desc": "Email chứa link Cổng Đánh giá Ứng viên giả mạo (SSO Phishing), đi kèm cuộc gọi từ Headhunter thúc giục HR mở hồ sơ gấp để kịp lịch họp với TGĐ.",
+            "trap_reason": "Bạn đã sập bẫy Tấn công Đa kênh nhắm mục tiêu (Spear Phishing + Vishing)! Kẻ gian đánh trúng tâm lý áp lực KPI tuyển dụng và sự e sợ chỉ đạo từ Ban Giám đốc.",
+            "content": "✉️ EMAIL: Tiêu đề: [HR-PRIORITY] Hồ sơ Trưởng phòng Kinh doanh Senior - Phạm Minh Tuấn (Ứng viên do TGĐ gửi trực tiếp).\nNgười gửi: Phạm Minh Tuấn <tuan.pm.headhunter@corporate-hrpool.com>\nNội dung: Kính gửi HR, tôi gửi hồ sơ theo trao đổi với anh Hoàng TGĐ. Hồ sơ năng lực và video thuyết trình đã được bảo mật trên Cổng Đánh giá Ứng viên Cấp cao. Vui lòng truy cập http://corporate-hrpool.com/candidate-tuan-pm và đăng nhập Email Công ty để xác thực thẩm quyền xem tài liệu.\n\n📞 VISHING (CUỘC GỌI): \"Chào em, anh Tuấn bên HR-Pool đây. Anh vừa gửi hồ sơ ứng viên Senior cho vị trí TGĐ giao đấy. Anh Hoàng TGĐ dặn kiểm tra gấp trong sáng nay để chiều anh ấy duyệt, em truy cập link xem rồi xếp lịch phỏng vấn giúp anh nhé!\""
         }
     ],
+
     "it": [
         {
             "id": "it_1",
-            "type": "Spear Phishing",
-            "title": "Cảnh báo Khẩn: Chứng chỉ SSL/TLS & Cloud Server AWS bị hết hạn",
-            "desc": "Email mạo danh AWS Cloud Services yêu cầu đăng nhập tài khoản Root để gia hạn API Key.",
-            "trap_reason": "Bạn đã nhập API Key / Credentials hệ thống Cloud lên tên miền giả mạo! Tên miền aws-console-verify.net là tên miền phishing. Kẻ tấn công sẽ chiếm quyền điều khiển toàn bộ hạ tầng Cloud của tổ chức.",
-            "content": "CRITICAL NOTICE: SSL Certificate & Wildcard DNS cho hệ thống Core Doanh nghiệp sẽ bị hết hạn và chấm dứt kết nối sau 2 giờ nữa do lỗi đồng bộ billing.\n\nVui lòng truy cập ngay cổng quản trị hạ tầng tại http://aws-console-verify.net, đăng nhập tài khoản Root/Admin và cập nhật Master API Key để hệ thống tự động gia hạn chứng chỉ SSL khẩn cấp."
+            "type": "Phishing",
+            "title": "Cảnh báo Giả mạo AWS Cloud: Chứng chỉ SSL & Server Core bị Hết hạn do Lỗi Billing",
+            "desc": "Email mạo danh AWS Cloud Services gửi Cảnh báo khẩn cấp, yêu cầu IT Admin đăng nhập tài khoản Root để gia hạn API Key và cập nhật thẻ thanh toán.",
+            "trap_reason": "Bạn đã nhập Master API Key / Credentials hệ thống Cloud lên tên miền giả mạo! Tên miền aws-console-verify.net là trang Phishing. Kẻ tấn công sẽ chiếm quyền điều khiển toàn bộ hạ tầng Cloud của tổ chức.",
+            "content": "CRITICAL NOTICE: SSL Certificate & Wildcard DNS cho hệ thống Core Doanh nghiệp sẽ bị chấm dứt kết nối sau 2 giờ nữa do lỗi đồng bộ billing thẻ tín dụng thanh toán tự động.\n\nNếu không gia hạn kịp thời, toàn bộ dịch vụ Web, ERP và Database sẽ bị gián đoạn truy cập. Vui lòng truy cập ngay cổng quản trị hạ tầng khẩn cấp tại:\n👉 Link: http://aws-console-verify.net/root-login\n\nTiến hành đăng nhập tài khoản Root/Admin và cập nhật Master API Key để hệ thống tự động gia hạn chứng chỉ SSL khẩn cấp.",
+            "correct_action": "Không bấm liên kết trong Email. Truy cập trực tiếp trang quản trị AWS qua Bookmark chính thức để kiểm tra trạng thái Billing."
         },
         {
             "id": "it_2",
             "type": "Deepfake Video Call",
-            "title": "Cuộc gọi khẩn cấp từ Giám đốc Tài chính: Duyệt lệnh chuyển tiền gấp qua video",
-            "desc": "Nhân viên kế toán nhận được cuộc gọi video từ tài khoản của Giám đốc tài chính (CFO)...",
-            "video_url": "/statics/videos/test.mp4",  # Đường dẫn tới file video có sẵn của bạn
-            "duration": "00:10",
-            "video_script": "Chào em, anh đang kẹt ở phòng chờ sân bay...",
+            "title": "Cuộc gọi Video Deepfake từ Con Gái: Nhập Viện Khẩn Cấp Cần Chuyển Tiền Gấp",
+            "desc": "Mẹ nhận được cuộc gọi video ngắn từ tài khoản con gái thông báo đang nhập viện khẩn cấp và cần chuyển ngay 1 triệu đồng, dặn mẹ gọi lại sau.",
+            "video_url": "/statics/videos/test1.mp4",
+            "duration": "00:13",
+            "video_script": "Con chào mẹ. Con là Trang đây. Mẹ ơi hiện tại con đang nhập viện. Mẹ có thể chuyển tiền cho con một triệu được không? Mẹ gọi sau cho con nha?",
             "subtle_clues": [
-                "Tần suất chớp mắt ít hơn bình thường.",
-                "Viền cổ và tai có vùng mờ nhòe.",
-                "Âm thanh lệch pha so với khẩu hình môi."
+                "Hình ảnh bị giật nhẹ mỗi khi nhân vật xua tay hoặc di chuyển đầu.",
+                "Ánh sáng trên khuôn mặt không khớp tự nhiên với môi trường xung quanh.",
+                "Tốc độ truyền tải thoại bị trễ bất thường so với cử động miệng.",
+                "Chủ động dặn 'mẹ gọi sau cho con nha' để cắt ngắn cuộc gọi, tránh bị phát hiện các sơ hở tiếp theo."
             ],
-            "correct_action": "Cúp máy ngay lập tức và xác thực lại qua số điện thoại nội bộ chính thống."
+            "correct_action": "Bình tĩnh cúp máy ngay lập tức, tuyệt đối không chuyển tiền. Gọi lại trực tiếp cho con gái qua số điện thoại di động chính hoặc liên hệ với bạn bè, người thân xung quanh con để xác thực thông tin.",
+            "trap_reason": "Bạn đã sập bẫy Deepfake Video Call mạo danh Người thân! Kẻ gian sử dụng AI thu thập hình ảnh và giọng nói của con gái trên mạng xã hội để dựng video giả mạo, lợi dụng tâm lý hoảng loạn, lo lắng cho con cái để lừa đảo chiếm đoạt tài sản."
         },
         {
             "id": "it_3",
-            "type": "Multi-stage Scam",
-            "title": "Tấn công Phishing Đánh cắp Token Truy cập Kho Mã nguồn Git / CI-CD",
-            "desc": "Cảnh báo mạo danh GitLab/GitHub báo Personal Access Token (PAT) bị lộ, dụ đăng nhập cổng Login giả để reset.",
-            "trap_reason": "Bạn đã cung cấp token truy cập và thông tin đăng nhập kho mã nguồn tổ chức trên cổng giả mạo! Kẻ tấn công có thể chèn mã độc vào Source Code (Supply Chain Attack) hoặc đánh cắp toàn bộ sở hữu trí tuệ của công ty.",
-            "content": "[GitLab Internal Alert]: Phát hiện Personal Access Token (PAT) và SSH Key của tài khoản Developer của bạn vừa bị rò rỉ trên không gian mạng công cộng. Để đảm bảo an toàn cho Repository dự án, hệ thống đã tạm khóa quyền Push code.\n\nVui lòng truy cập ngay cổng xác thực nội bộ tại http://gitlab-internal-auth.com để đăng nhập và cấp lại Access Token mới trong vòng 12 giờ."
+            "type": "Social Engineering",
+            "title": "Tấn công Phishing Đánh cắp Personal Access Token (PAT) Kho Mã nguồn GitLab/GitHub",
+            "desc": "Cảnh báo mạo danh GitLab/GitHub báo SSH Key bị rò rỉ, dụ Developer đăng nhập Cổng Login giả để reset Token và bảo vệ Repository.",
+            "trap_reason": "Bạn đã cung cấp Token truy cập và Credential kho mã nguồn tổ chức! Kẻ tấn công có thể chèn mã độc vào Source Code (Supply Chain Attack) hoặc đánh cắp toàn bộ sở hữu trí tuệ công ty.",
+            "content": "[GitLab Internal Alert]: Phát hiện Personal Access Token (PAT) và SSH Key của tài khoản Developer của bạn vừa bị rò rỉ trên một Repository công khai trên GitHub.\n\nĐể đảm bảo an toàn cho toàn bộ Source Code dự án Q3, hệ thống đã tạm thời khóa quyền Push code của tài khoản này. Vui lòng truy cập ngay cổng xác thực an ninh nội bộ để hủy Token cũ và cấp lại Access Token mới:\n👉 Link: http://gitlab-internal-auth.com/reset-token\n\n(Hạn chót xử lý trong vòng 12 giờ trước khi tài khoản bị khóa vĩnh viễn)."
+        },
+        {
+            "id": "it_4",
+            "type": "Spear Phishing & Vishing",
+            "title": "Kịch bản Kép: Email Cảnh báo Lỗi VPN Doanh nghiệp kết hợp Cuộc gọi từ IT Helpdesk Giả mạo",
+            "desc": "Email yêu cầu cập nhật Patch bảo mật cho VPN Client đính kèm link tải mã độc, kết hợp cuộc gọi vishing giả dạng Chuyên gia IT Network hỗ trợ cài đặt.",
+            "trap_reason": "Bạn đã sập bẫy Kỹ thuật xã hội nhắm mục tiêu vào Khối Kỹ thuật (Spear Phishing + Vishing)! Kẻ gian giả danh Đồng nghiệp IT Network để tạo lòng tin và dẫn dụ bạn thực thi File mã độc.",
+            "content": "✉️ EMAIL: Tiêu đề: [IT-NOTICE] Cập nhật Patch Bảo mật Khẩn cấp cho Fortinet VPN Client phòng chống tấn công DDoS.\nNgười gửi: Admin Helpdesk <admin-helpdesk@company-cloud-security.com>\nNội dung: Hệ thống đang bị tấn công DDoS qua cổng VPN cũ. Yêu cầu toàn bộ nhân sự kỹ thuật tải bản Patch cập nhật tại http://fortinet-corp-update.net/vpn-patch và chạy file setup.exe.\n\n📞 VISHING (CUỘC GỌI): \"Alo anh, em bên Đội An ninh mạng IT Network đây. Hộp thư công ty đang bị tấn công DDoS qua cổng VPN cũ, em vừa gửi link Patch qua email đấy. Anh bấm tải file .exe về chạy luôn giúp em để bảo vệ máy tính và giữ kết nối server nhé!\""
         }
     ],
+
     "sales": [
         {
             "id": "sales_1",
-            "type": "Spear Phishing",
-            "title": "Thư Mời Thầu & Yêu cầu Báo Giá Dự án Triển khai Phần mềm 3.2 Tỷ",
-            "desc": "Email từ Khách hàng lớn gửi link SharePoint yêu cầu đăng nhập tài khoản Email Doanh nghiệp để tải Hồ sơ Thầu.",
-            "trap_reason": "Bạn đã nhập thông tin tài khoản doanh nghiệp vào trang web Phishing giả mạo SharePoint! Kẻ tấn công lợi dụng tâm lý hám lời từ các hợp đồng giá trị cao của nhân viên Sales.",
-            "content": "Kính gửi Phòng Kinh doanh,\n\nChúng tôi đại diện cho Tập đoàn SunGroup trân trọng mời Quý công ty tham gia chào giá gói thầu tư vấn triển khai hạ tầng & phần mềm cho dự án sắp tới của chúng tôi (Tổng giá trị dự kiến 3,2 Tỷ VNĐ).\n\nDo yêu cầu bảo mật của Hồ sơ Mời thầu (RFP), toàn bộ File Báo cáo Kỹ thuật và Bảng Tiêu chuẩn đã được tải lên Cổng lưu trữ SharePoint Doanh nghiệp.\n\nVui lòng truy cập đường link http://partner-corp-group.net/rfp-2026 và Đăng nhập bằng Tài khoản Microsoft / Email Doanh nghiệp của bạn để tải Hồ sơ Mời thầu (Hạn nộp báo giá: Trước 12:00 ngày mai)."
+            "type": "Phishing",
+            "title": "Thư Mời Thầu & Yêu cầu Báo Giá Dự án Triển khai Phần mềm 3.2 Tỷ (Microsoft SharePoint)",
+            "desc": "Email từ Khách hàng lớn gửi link SharePoint yêu cầu đăng nhập tài khoản Email Doanh nghiệp để tải Hồ sơ Thầu bảo mật.",
+            "trap_reason": "Bạn đã nhập thông tin tài khoản doanh nghiệp vào trang web Phishing giả mạo SharePoint! Kẻ tấn công lợi dụng tâm lý hám lời và áp lực chỉ tiêu doanh số từ các hợp đồng giá trị cao.",
+            "content": "Kính gửi Phòng Kinh doanh & Ban Giám đốc,\n\nChúng tôi đại diện cho Tập đoàn SunGroup trân trọng mời Quý công ty tham gia chào giá gói thầu tư vấn triển khai hạ tầng & phần mềm quản trị cho dự án mới của chúng tôi (Tổng giá trị dự kiến 3.2 Tỷ VNĐ).\n\nDo yêu cầu bảo mật nghiêm ngặt của Hồ sơ Mời thầu (RFP), toàn bộ File Báo cáo Kỹ thuật, Bảng Tiêu chuẩn và Dự thảo Hợp đồng đã được tải lên Cổng lưu trữ SharePoint Doanh nghiệp:\n👉 Link: http://partner-corp-group.net/rfp-2026-sungroup\n\nVui lòng Đăng nhập bằng Tài khoản Microsoft / Email Doanh nghiệp của bạn để xác thực quyền xem và tải Hồ sơ Mời thầu (Hạn nộp báo giá: Trước 12:00 ngày mai).",
+            "correct_action": "Không đăng nhập tài khoản công ty trên các liên kết SharePoint lạ. Xác minh lại với bộ phận Mua hàng/Đầu mối chính thức của đối tác."
         },
         {
             "id": "sales_2",
             "type": "Deepfake Video Call",
-            "title": "Cuộc gọi khẩn cấp từ Giám đốc Tài chính: Duyệt lệnh chuyển tiền gấp qua video",
-            "desc": "Nhân viên kế toán nhận được cuộc gọi video từ tài khoản của Giám đốc tài chính (CFO)...",
-            "video_url": "/statics/videos/test.mp4",  # Đường dẫn tới file video có sẵn của bạn
-            "duration": "00:10",
-            "video_script": "Chào em, anh đang kẹt ở phòng chờ sân bay...",
+            "title": "Cuộc gọi Video Deepfake từ Con Trai: Xin Tiền Đóng Học Phí Gấp",
+            "desc": "Mẹ nhận được cuộc gọi video ngắn từ tài khoản con trai thông báo sắp đến hạn đóng học phí và xin gấp 10 triệu đồng, dặn mẹ gọi lại sau.",
+            "video_url": "/statics/videos/test2.mp4",
+            "duration": "00:13",
+            "video_script": "Con chào mẹ, Con là phúc con sắp đóng học phí, mẹ cho con xin 10 triệu để đóng học phí nhé, Mẹ gọi lại con sau nha?",
             "subtle_clues": [
-                "Tần suất chớp mắt ít hơn bình thường.",
-                "Viền cổ và tai có vùng mờ nhòe.",
-                "Âm thanh lệch pha so với khẩu hình môi."
+                "Cơ mặt chuyển động thiếu tự nhiên khi nhân vật nói nhanh.",
+                "Ánh mắt nhìn chệch khỏi ống kính camera liên tục, thiếu tự nhiên.",
+                "Âm thanh cuộc gọi chập chờn, bị đứt đoạn ở các từ cuối câu.",
+                "Cố tình tạo áp lực thời gian và dặn 'Mẹ gọi lại con sau nha' để chủ động cắt ngang cuộc gọi, tránh bị phát hiện các điểm bất thường."
             ],
-            "correct_action": "Cúp máy ngay lập tức và xác thực lại qua số điện thoại nội bộ chính thống."
+            "correct_action": "Bình tĩnh cúp máy ngay lập tức, tuyệt đối không chuyển tiền ngay. Gọi điện trực tiếp lại cho con trai qua số di động thông thường hoặc liên hệ nhà trường/bạn bè để xác thực lại thông tin đóng học phí.",
+            "trap_reason": "Bạn đã sập bẫy Deepfake Video Call mạo danh Người thân! Kẻ gian lợi dụng công nghệ AI để dựng video giả mạo con trai, đánh vào tâm lý lo lắng cho việc học của con cái nhằm chiếm đoạt tài sản."
         },
         {
             "id": "sales_3",
-            "type": "Multi-stage Scam",
-            "title": "Xác nhận Đơn đặt hàng Xuất khẩu Khẩn (Gửi đính kèm File .exe ẩn dưới dạng PDF)",
-            "desc": "Khách hàng nước ngoài gửi file Purchase_Order_2026.pdf.exe yêu cầu mở xem số lượng hàng.",
-            "trap_reason": "Bạn đã bị cài Trojan / Spyware theo dõi bàn phím! Kẻ gian thực hiện kịch bản đổi đuôi file double-extension (.pdf.exe) để lừa người dùng bấm vào chạy file thực thi.",
-            "content": "Dear Sales Team,\n\nPlease find attached our official Purchase Order (PO) for Q3 shipment. We need 5,000 units delivered by next month.\n\n📁 Attached File: PO_Order_Specification_2026.pdf.exe\n\nPlease check the specifications in the PDF file and confirm back to us."
+            "type": "Social Engineering",
+            "title": "Xác nhận Đơn đặt hàng Xuất khẩu Khẩn (Gửi file đính kèm Double-Extension PO_Order_Specification.pdf.exe)",
+            "desc": "Khách hàng nước ngoài gửi file Purchase_Order_2026.pdf.exe yêu cầu Sales mở xem số lượng và thông số kỹ thuật gấp để kịp đóng container.",
+            "trap_reason": "Bạn đã bị cài Trojan / Spyware theo dõi bàn phím! Kẻ gian thực hiện kịch bản đổi đuôi file double-extension (.pdf.exe) để lừa người dùng bấm vào chạy file thực thi độc hại.",
+            "content": "Dear Sales Team,\n\nPlease find attached our official Purchase Order (PO) and Technical Specifications for Q3 shipment. We need 5,000 units delivered by next month.\n\n📁 Attached File: PO_Order_Specification_2026.pdf.exe\n\nPlease check the specifications in the PDF file and confirm back to us urgently so we can arrange the deposit transfer today."
+        },
+        {
+            "id": "sales_4",
+            "type": "Spear Phishing & Vishing",
+            "title": "Kịch bản Kép: Email Mời Tham gia Sàn B2B Đối tác Quốc tế kết hợp Gọi điện Giả danh Trưởng phòng Mua hàng đối tác",
+            "desc": "Email gửi link đăng nhập hệ thống B2B nhận đơn hàng lớn, đi kèm cuộc gọi thúc giục từ Trưởng phòng Mua hàng đối tác yêu cầu xác nhận tài khoản.",
+            "trap_reason": "Bạn đã sập bẫy Tấn công Đa kênh nhắm vào mục tiêu Doanh số (Spear Phishing + Vishing)! Kẻ gian lợi dụng tâm lý muốn chốt đơn nhanh của nhân viên Sales để lấy thông tin đăng nhập.",
+            "content": "✉️ EMAIL: Tiêu đề: [B2B-OPPORTUNITY] Mời xác nhận thông tin Nhà cung cấp cấp 1 cho Dự án Khách sạn 5 sao.\nNgười gửi: Nguyễn Văn Nam - Trưởng phòng Mua hàng <nam.nv@b2b-procurement-partner.com>\nNội dung: Trân trọng mời Quý công ty tham gia chuỗi cung ứng. Vui lòng đăng nhập cổng B2B tại http://b2b-procurement-partner.com/vendor-login bằng Email Doanh nghiệp để hoàn tất hồ sơ năng lực.\n\n📞 VISHING (CUỘC GỌI): \"Alo em, anh Nam Trưởng phòng Mua hàng đây. Anh vừa gửi mail mời bên em làm nhà cung cấp đấy. Bấm vào link đăng nhập xác nhận thông tin doanh nghiệp gấp giúp anh để anh trình Giám đốc duyệt hợp đồng trong chiều nay nhé!\""
         }
     ]
 }
