@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chương trình Mô phỏng & Nâng cao Nhận thức An ninh mạng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .sidebar {
+            background: #0f172a;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .sidebar .nav-link {
+            color: #94a3b8;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .sidebar .nav-link.active,
+        .sidebar .nav-link:hover {
+            color: #ffffff;
+            background: #1e293b;
+        }
+
+        .sidebar .nav-link i {
+            width: 24px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .sim-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-left: 5px solid transparent;
+        }
+
+        .sim-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .sim-card.spear {
+            border-left-color: #ef4444;
+        }
+
+        .sim-card.deepfake {
+            border-left-color: #a855f7;
+        }
+
+        .sim-card.multi {
+            border-left-color: #f59e0b;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .sandbox-safety-banner {
+            background: #0284c7;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2 sidebar p-3 d-flex flex-column">
+                <div class="d-flex align-items-center mb-3 px-2">
+                    <i class="fa-solid fa-shield-virus fa-2x text-primary me-2"></i>
+                    <span class="fs-5 fw-bold text-white">CyberAware</span>
+                </div>
+
+                <div class="bg-dark p-3 rounded mb-3 border border-secondary">
+                    <small class="text-muted d-block mb-1">Tài khoản đang đăng nhập:</small>
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="user-avatar me-2" id="sidebarAvatar">U</div>
+                        <div class="overflow-hidden">
+                            <h6 class="text-white m-0 text-truncate" id="sidebarUserName">Loading...</h6>
+                            <span class="badge bg-primary" id="sidebarRole">User</span>
+                        </div>
+                    </div>
+                    <div class="text-warning small mb-2"><i class="fa-solid fa-star me-1"></i><span
+                            id="sidebarScore">0</span> Điểm</div>
+                    <a href="/logout" class="btn btn-outline-danger btn-sm w-100">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i>Đăng xuất
+                    </a>
+                </div>
+
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li><a href="#" class="nav-link active" id="btn-tab-pre" onclick="switchTab('pre')"><i
+                                class="fa-solid fa-clipboard-check"></i> 1. Khảo sát Đầu vào</a></li>
+                    <li><a href="#" class="nav-link" id="btn-tab-criteria" onclick="switchTab('criteria')"><i
+                                class="fa-solid fa-book-bookmark"></i> 2. Tiêu chí Nhận diện</a></li>
+                    <li><a href="#" class="nav-link" id="btn-tab-sim" onclick="switchTab('sim')"><i
+                                class="fa-solid fa-vr-cardboard"></i> 3. Tình huống Mô phỏng</a></li>
+                    <li><a href="#" class="nav-link" id="btn-tab-detector" onclick="switchTab('detector')"><i
+                                class="fa-solid fa-robot text-warning"></i> 4. AI Threat Detector</a></li>
+                    <li><a href="#" class="nav-link" id="btn-tab-leaderboard" onclick="switchTab('leaderboard')"><i
+                                class="fa-solid fa-trophy text-success"></i> 5. Bảng Xếp Hạng</a></li>
+                    <li><a href="#" class="nav-link" id="btn-tab-post" onclick="switchTab('post')"><i
+                                class="fa-solid fa-chart-pie"></i> 6. Khảo sát & Báo cáo</a></li>
+                    <li id="menu-admin-tab" class="d-none"><a href="#" class="nav-link text-info fw-bold"
+                            id="btn-tab-admin" onclick="switchTab('admin')"><i class="fa-solid fa-user-shield"></i> 7.
+                            Admin Dashboard</a></li>
+                </ul>
+
+                <div class="mt-auto p-2 bg-dark rounded border border-warning text-center small text-warning">
+                    <i class="fa-solid fa-user-lock me-1"></i> <strong>SANDBOX CÔ LẬP</strong><br>
+                    <span style="font-size: 10px;" class="text-muted d-block mt-1">Chỉ sử dụng diễn tập nội bộ.</span>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-lg-10 p-4">
+
+                <div class="sandbox-safety-banner d-flex align-items-center justify-content-between">
+                    <div>
+                        <i class="fa-solid fa-shield-halved fa-lg me-2"></i>
+                        <strong>QUY ĐỊNH AN TOÀN DIỄN TẬP:</strong> Mọi kịch bản chỉ diễn ra trực tiếp trong môi trường
+                        Sandbox nội bộ. Tuyệt đối <strong>KHÔNG</strong> phát tán kịch bản ra bên ngoài khi chưa được
+                        phép.
+                    </div>
+                    <span class="badge bg-success ms-2 text-nowrap"><i class="fa-solid fa-check-circle me-1"></i>Sandbox
+                        Active</span>
+                </div>
+
+                <div id="tab-pre" class="tab-module">
+                    <h3 class="fw-bold mb-3"><i class="fa-solid fa-clipboard-question text-primary me-2"></i>Khảo sát
+                        Nhận thức Ban đầu (Pre-Test)</h3>
+                    <p class="text-muted">Đánh giá tư duy và thói quen xử lý sự cố an ninh mạng của bạn trước khi diễn
+                        tập.</p>
+                    <div class="card p-4">
+                        <form id="formPreTest">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Họ tên hiển thị:</label>
+                                <input type="text" class="form-control mb-3" id="inputUserName" value="" readonly>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">1. Khi nhận email từ Sếp yêu cầu chuyển khoản gấp cho
+                                    đối tác mới với từ ngữ cực kỳ thuyết phục, hành động đầu tiên của bạn là gì?</label>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
+                                        value="click" id="pre1_1"><label class="form-check-label" for="pre1_1">Thực hiện
+                                        ngay vì đúng uy quyền của Sếp và văn bản chuẩn chỉnh.</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
+                                        value="out_of_band" id="pre1_2"><label class="form-check-label"
+                                        for="pre1_2">Dừng lại, gọi lại bằng số điện thoại nội bộ (Kênh thứ 2) để xác
+                                        minh trực tiếp.</label></div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">2. Công nghệ AI hiện nay đã loại bỏ hoàn toàn các lỗi
+                                    chính tả và ngữ pháp trong văn bản lừa đảo. Phương pháp phát hiện nào là cốt
+                                    lõi?</label>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
+                                        value="grammar" id="pre2_1"><label class="form-check-label" for="pre2_1">Đọc kỹ
+                                        để tìm lỗi đánh máy nhỏ.</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
+                                        value="process" id="pre2_2"><label class="form-check-label" for="pre2_2">Chuyển
+                                        sang Kiểm soát Quy trình: Kiểm tra Domain gửi và yêu cầu xác minh ngoài
+                                        luồng.</label></div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">3. Trong cuộc gọi Video Call nghi ngờ Deepfake (khuôn
+                                    mặt hơi cứng, khớp khẩu hình trễ), hành động đúng nhất là?</label>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q3"
+                                        value="trust" id="pre3_1"><label class="form-check-label" for="pre3_1">Tiếp tục
+                                        cuộc gọi và làm theo yêu cầu vì đã thấy hình ảnh người thật.</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q3"
+                                        value="challenge" id="pre3_2"><label class="form-check-label" for="pre3_2">Yêu
+                                        cầu đối phương thực hiện một hành động ngẫu nhiên (xoay mặt, xua tay) hoặc cúp
+                                        máy gọi lại.</label></div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">4. Khi phát hiện một tin nhắn/email nghi vấn lừa đảo
+                                    trong tổ chức, bạn nên làm gì?</label>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q4"
+                                        value="ignore" id="pre4_1"><label class="form-check-label" for="pre4_1">Xóa tin
+                                        nhắn/email và không làm gì thêm.</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q4"
+                                        value="report" id="pre4_2"><label class="form-check-label" for="pre4_2">Bấm nút
+                                        "Báo cáo" (Report) lập tức để hệ thống cảnh báo chung cho mọi người.</label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-lg" onclick="submitPreTest()"><i
+                                    class="fa-solid fa-paper-plane me-2"></i>Nộp Khảo sát & Sang Bước Kế tiếp</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="tab-criteria" class="tab-module d-none">
+                    <h3 class="fw-bold mb-3"><i class="fa-solid fa-list-check text-success me-2"></i>Bộ Tiêu chí Nhận
+                        diện Lừa đảo Thế hệ Mới (AI Era)</h3>
+                    <p class="text-muted">Các quy tắc giúp nhận diện nguy cơ khi ranh giới Thật - Giả bị xóa bỏ bởi AI.
+                    </p>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card p-3 h-100 border-top border-danger border-4">
+                                <h5 class="fw-bold text-danger"><i class="fa-solid fa-envelope-open-text me-2"></i>1.
+                                    Spear Phishing (Email cá nhân hóa)</h5>
+                                <ul class="small mt-2">
+                                    <li><strong>Địa chỉ gửi (Domain):</strong> Tên miền giống 99% miền thật nhưng sai 1
+                                        ký tự (VD: <code>@company-check.com</code>).</li>
+                                    <li><strong>Ngữ cảnh gấp gáp:</strong> Tạo áp lực thời gian ("Phải xác nhận trước
+                                        17h00 nếu không sẽ ngắt dịch vụ").</li>
+                                    <li><strong>Tài chính nhạy cảm:</strong> Yêu cầu cập nhật số tài khoản, thông tin
+                                        ngân hàng, OTP.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card p-3 h-100 border-top border-purple border-4"
+                                style="border-top-color: #a855f7 !important;">
+                                <h5 class="fw-bold" style="color: #a855f7;"><i class="fa-solid fa-video me-2"></i>2.
+                                    Deepfake Video / Vishing Call</h5>
+                                <ul class="small mt-2">
+                                    <li><strong>Bất thường thị giác:</strong> Mắt ít chớp, viền mặt bị nhòe khi di
+                                        chuyển, khớp khẩu hình lệch.</li>
+                                    <li><strong>Cái bẫy tín hiệu:</strong> Thường nói "đang ở sân bay", "sóng yếu" để
+                                        che giấu lỗi AI.</li>
+                                    <li><strong>Thử thách (Challenge):</strong> Yêu cầu đối phương xoay mặt 90 độ hoặc
+                                        giơ tay trước mặt.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card p-3 bg-dark text-white">
+                                <h5 class="fw-bold text-warning"><i class="fa-solid fa-shield-halved me-2"></i>Quy tắc
+                                    Vàng: Nguyên tắc Kiểm soát Quy trình (Out-of-band Verification)</h5>
+                                <p class="small mb-0">Khi xuất hiện giao dịch chuyển tiền/thay đổi dữ liệu nhạy cảm
+                                    &rarr; <strong>BẮT BUỘC xác minh qua Kênh thứ 2 độc lập</strong> (Gọi điện di động
+                                    nội bộ hoặc gặp trực tiếp).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-sim" class="tab-module d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <h3 class="fw-bold m-0"><i class="fa-solid fa-flask text-warning me-2"></i>Môi trường Giả
+                                lập Tình huống (Role-Based Sandbox)</h3>
+                            <p class="text-muted small m-0">Kịch bản tấn công cá nhân hóa dành cho: <strong
+                                    class="text-primary" id="simCurrentUserName">User</strong></p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <select class="form-select w-auto" id="roleSelector" onchange="loadRoleScenarios()">
+                                <option value="accountant">Kế toán / Tài chính</option>
+                                <option value="hr">Nhân sự (HR)</option>
+                                <option value="it">Công nghệ Thông tin (IT)</option>
+                                <option value="sales">Kinh doanh / Sales</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row g-4" id="scenariosContainer"></div>
+
+                    <div class="modal fade" id="scenarioModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark text-white">
+                                    <h5 class="modal-title fw-bold" id="modalSimTitle">Chi tiết Tình huống</h5>
+                                    <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="modalVideoContainer" class="mb-3 d-none">
+                                        <div class="ratio ratio-16x9 bg-black rounded overflow-hidden shadow-sm mb-2">
+                                            <video id="modalSimulationVideo" controls class="w-100 h-100">
+                                                <source id="modalVideoSource" src="" type="video/mp4">
+                                                Trình duyệt của bạn không hỗ trợ thẻ video.
+                                            </video>
+                                        </div>
+                                    </div>
+
+                                    <div class="alert alert-secondary font-monospace small"
+                                        style="white-space: pre-wrap;" id="modalSimContent"></div>
+                                    <div id="modalTrapFeedback" class="alert alert-danger d-none mt-3"></div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-outline-danger"
+                                        onclick="handleSimAction('trap')">
+                                        <i class="fa-solid fa-link me-1"></i>Thực hiện Yêu cầu (Mở Link/Chuyển tiền)
+                                    </button>
+                                    <button type="button" class="btn btn-success" onclick="handleSimAction('report')">
+                                        <i class="fa-solid fa-flag me-1"></i>Báo cáo Sự cố An ninh Mạng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-detector" class="tab-module d-none">
+                    <h3 class="fw-bold mb-3"><i class="fa-solid fa-robot text-warning me-2"></i>Trợ lý AI Phân Tích Mối
+                        Đe Dọa (Threat Detector)</h3>
+                    <p class="text-muted">Dán đoạn email, tin nhắn hoặc nội dung cuộc gọi nghi vấn vào đây để AI phân
+                        tích dấu hiệu lừa đảo.</p>
+                    <div class="card p-4">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <label class="form-label fw-bold">Nội dung nghi vấn:</label>
+                                <textarea class="form-control mb-3" id="aiInputText" rows="8"
+                                    placeholder="Dán văn bản email, SMS hoặc đoạn hội thoại tại đây..."></textarea>
+                                <button class="btn btn-warning w-100 fw-bold" onclick="analyzeThreatWithAI()"><i
+                                        class="fa-solid fa-magnifying-glass-chart me-2"></i>Phân Tích Bằng AI</button>
+                            </div>
+                            <div class="col-md-5 border-start">
+                                <h5 class="fw-bold mb-3">Kết Quả Phân Tích</h5>
+                                <div id="aiResultArea" class="text-start small">
+                                    <p class="text-muted text-center my-3">Nhập nội dung bên trái để xem kết quả phân
+                                        tích.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-leaderboard" class="tab-module d-none">
+                    <h3 class="fw-bold mb-3"><i class="fa-solid fa-trophy text-success me-2"></i>Bảng Xếp Hạng & Hệ
+                        Thống Huy Hiệu</h3>
+                    <div class="row g-4">
+                        <div class="col-md-8">
+                            <div class="card p-4">
+                                <h5 class="fw-bold mb-3">🏆 Bảng Xếp Hạng An Toàn Cá Nhân</h5>
+                                <table class="table align-middle">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Hạng</th>
+                                            <th>Tên Người Dùng</th>
+                                            <th>Điểm</th>
+                                            <th>Báo cáo</th>
+                                            <th>Sập bẫy</th>
+                                            <th>Rủi ro</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="leaderboardBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-4 bg-dark text-white">
+                                <h5 class="fw-bold text-warning mb-3"><i class="fa-solid fa-award me-2"></i>Bộ Huy Hiệu
+                                    Đã Đạt</h5>
+                                <div id="badgesContainer" class="d-flex flex-column gap-3">
+                                    <div
+                                        class="p-3 border border-secondary rounded d-flex align-items-center bg-secondary bg-opacity-25">
+                                        <div class="fs-2 me-3">🎯</div>
+                                        <div>
+                                            <h6 class="fw-bold mb-0 text-white">Bậc Thầy Nhận Thức</h6>
+                                            <small class="text-light fw-medium">Hoàn thành bài Pre-test &
+                                                Post-test</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-post" class="tab-module d-none">
+                    <h3 class="fw-bold mb-3"><i class="fa-solid fa-square-poll-vertical text-info me-2"></i>Đánh giá Sau
+                        Diễn tập (Post-Test) & Báo cáo</h3>
+                    <div class="card p-4 mb-4">
+                        <h5 class="fw-bold mb-3">Khảo sát Đầu ra (Post-Test)</h5>
+                        <form id="formPostTest">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">1. Phương pháp nào phòng chống lừa đảo CEO/Deepfake
+                                    hiệu quả nhất?</label>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
+                                        value="click" id="post1_1"><label class="form-check-label" for="post1_1">Xem kỹ
+                                        khuôn mặt trong video call.</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
+                                        value="out_of_band" id="post1_2"><label class="form-check-label"
+                                        for="post1_2">Xác minh qua Kênh thứ 2 độc lập (Out-of-band
+                                        Verification).</label></div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">2. Khi phát hiện yêu cầu chuyển khoản lạ qua
+                                    Zalo/Email của Sếp, bước xử lý chuẩn là?</label>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
+                                        value="process" id="post2_1"><label class="form-check-label" for="post2_1">Dừng
+                                        lại, không chuyển tiền và báo cáo cho bộ phận Security/IT.</label></div>
+                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
+                                        value="pay" id="post2_2"><label class="form-check-label" for="post2_2">Chuyển
+                                        tiền tạm rồi báo sau.</label></div>
+                            </div>
+                            <button type="button" class="btn btn-success fw-bold" onclick="submitPostTest()"><i
+                                    class="fa-solid fa-chart-line me-2"></i>Nộp Bài & Xem Báo Cáo Tiến Bộ</button>
+                        </form>
+                    </div>
+
+                    <div id="report-section"
+                        class="card p-4 bg-dark text-white d-none border border-secondary shadow-sm">
+                        <h4 class="fw-bold text-warning mb-3"><i class="fa-solid fa-file-invoice me-2"></i>Báo Cáo Tiến
+                            Bộ Cá Nhân</h4>
+
+                        <div
+                            class="d-flex align-items-center p-3 bg-secondary bg-opacity-10 border border-secondary rounded mb-4">
+                            <div class="fs-2 text-success me-3">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold text-light mb-1">Trạng thái đánh giá năng lực an ninh mạng</h6>
+                                <small class="text-light fw-medium" style="opacity: 0.9;">Hoàn thành bài Pre-test &
+                                    Post-test</small>
+                            </div>
+                        </div>
+
+                        <div class="row text-center my-2">
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="p-3 border border-secondary rounded bg-dark">
+                                    <small class="text-light fw-medium d-block mb-1">Điểm Đầu Vào (Pre-Test)</small>
+                                    <span class="fs-3 fw-bold text-danger" id="res-pre-score">0/100</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3 mb-md-0">
+                                <div class="p-3 border border-secondary rounded bg-dark">
+                                    <small class="text-light fw-medium d-block mb-1">Điểm Đầu Ra (Post-Test)</small>
+                                    <span class="fs-3 fw-bold text-success" id="res-post-score">0/100</span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 border border-secondary rounded bg-dark">
+                                    <small class="text-light fw-medium d-block mb-1">Tỷ Lệ Cải Thiện</small>
+                                    <span class="fs-3 fw-bold text-warning" id="res-growth">+0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-admin" class="tab-module d-none">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="fw-bold m-0"><i class="fa-solid fa-user-gear text-danger me-2"></i>Admin Dashboard -
+                            Quản Lý Hệ Thống & Người Dùng</h3>
+                        <button class="btn btn-primary fw-bold" onclick="openAddUserModal()"><i
+                                class="fa-solid fa-user-plus me-2"></i>Thêm Người Dùng Mới</button>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            <div class="card p-3 border-start border-primary border-4">
+                                <small class="text-muted">Điểm Pre-Test TB</small>
+                                <h3 class="fw-bold text-primary m-0" id="adminAvgPre">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3 border-start border-success border-4">
+                                <small class="text-muted">Điểm Post-Test TB</small>
+                                <h3 class="fw-bold text-success m-0" id="adminAvgPost">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3 border-start border-danger border-4">
+                                <small class="text-muted">Tổng Lần Sập Bẫy</small>
+                                <h3 class="fw-bold text-danger m-0" id="adminTotalTraps">0</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3 border-start border-warning border-4">
+                                <small class="text-muted">Tổng Lần Báo Cáo</small>
+                                <h3 class="fw-bold text-warning m-0" id="adminTotalReports">0</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card p-4 mb-4">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-users-gear me-2"></i>Danh Sách Tài Khoản Người
+                            Dùng</h5>
+                        <div class="table-responsive">
+                            <table class="table align-middle table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Tên đăng nhập</th>
+                                        <th>Họ tên</th>
+                                        <th>Quyền</th>
+                                        <th>Điểm</th>
+                                        <th>Báo cáo</th>
+                                        <th>Sập bẫy</th>
+                                        <th>Mức Rủi ro</th>
+                                        <th class="text-center">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminUserTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="userModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-dark text-white">
+                                <h5 class="modal-title fw-bold" id="userModalTitle">Thêm Người Dùng</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                    data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="editUserId">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Tên đăng nhập</label>
+                                    <input type="text" class="form-control" id="modalUsername" placeholder="Username">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Họ tên</label>
+                                    <input type="text" class="form-control" id="modalName" placeholder="Họ và tên">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Mật khẩu</label>
+                                    <input type="password" class="form-control" id="modalPassword"
+                                        placeholder="Mật khẩu">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Phân quyền</label>
+                                    <select class="form-select" id="modalRole">
+                                        <option value="user">User</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label fw-bold">Điểm số</label>
+                                        <input type="number" class="form-control" id="modalScore" value="0" min="0"
+                                            max="100" step="1" oninput="limitScore(100)" placeholder="Nhập điểm...">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label fw-bold">Mức rủi ro</label>
+                                        <select class="form-select" id="modalRisk">
+                                            <option value="Thấp">Thấp</option>
+                                            <option value="Trung bình">Trung bình</option>
+                                            <option value="Cao">Cao</option>
+                                            <option value="Rất Cao">Rất Cao</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary fw-bold" onclick="saveUser()"><i
+                                        class="fa-solid fa-save me-1"></i>Lưu Thay Đổi</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentScenarioId = null;
+        let currentUserData = null;
+        let userBSModal = null;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            userBSModal = new bootstrap.Modal(document.getElementById('userModal'));
+            fetchCurrentUser();
+            loadLeaderboard();
+            loadRoleScenarios();
+        });
+
+        function fetchCurrentUser() {
+            fetch('/api/get-current-user')
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status === 'success') {
+                        currentUserData = res.user;
+                        document.getElementById('sidebarUserName').innerText = res.user.name;
+                        document.getElementById('simCurrentUserName').innerText = res.user.name;
+                        document.getElementById('inputUserName').value = res.user.name;
+                        document.getElementById('sidebarScore').innerText = res.user.score;
+                        document.getElementById('sidebarAvatar').innerText = res.user.name.charAt(0).toUpperCase();
+
+                        const roleBadge = document.getElementById('sidebarRole');
+                        roleBadge.innerText = res.user.role === 'admin' ? 'Admin' : 'User';
+                        roleBadge.className = res.user.role === 'admin' ? 'badge bg-danger' : 'badge bg-primary';
+
+                        if (res.user.role === 'admin') {
+                            document.getElementById('menu-admin-tab').classList.remove('d-none');
+                        }
+                    }
+                });
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-module').forEach(el => el.classList.add('d-none'));
+            document.querySelectorAll('.sidebar .nav-link').forEach(el => el.classList.remove('active'));
+
+            document.getElementById('tab-' + tabId).classList.remove('d-none');
+            document.getElementById('btn-tab-' + tabId).classList.add('active');
+
+            if (tabId === 'leaderboard') loadLeaderboard();
+            if (tabId === 'admin') loadAdminDashboard();
+        }
+
+        function submitPreTest() {
+            const form = document.getElementById('formPreTest');
+            const data = {
+                user_name: document.getElementById('inputUserName').value,
+                q1: form.elements['q1'].value,
+                q2: form.elements['q2'].value,
+                q3: form.elements['q3'].value,
+                q4: form.elements['q4'].value
+            };
+
+            fetch('/api/submit-pre-test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(r => r.json()).then(res => {
+                alert('Đã hoàn thành khảo sát Pre-Test! Điểm của bạn: ' + res.score + '/100');
+                fetchCurrentUser();
+                switchTab('criteria');
+            });
+        }
+
+        function loadRoleScenarios() {
+            const role = document.getElementById('roleSelector').value;
+            fetch('/api/get-role-scenarios/' + role)
+                .then(r => r.json())
+                .then(res => {
+                    const container = document.getElementById('scenariosContainer');
+                    container.innerHTML = res.scenarios.map(s => `
+                    <div class="col-md-6">
+                        <div class="card p-3 sim-card ${s.type.includes('Spear') ? 'spear' : s.type.includes('Deepfake') ? 'deepfake' : 'multi'}" onclick="openScenario('${s.id}')">
+                            <span class="badge ${s.type.includes('Spear') ? 'bg-danger' : s.type.includes('Deepfake') ? 'bg-purple' : 'bg-warning'} w-auto ms-auto" style="${s.type.includes('Deepfake') ? 'background:#a855f7;' : ''}">${s.type}</span>
+                            <h6 class="fw-bold mt-2">${s.title}</h6>
+                            <p class="text-muted small mb-0">${s.desc}</p>
+                        </div>
+                    </div>
+                `).join('');
+                    window.currentScenarios = res.scenarios;
+                });
+        }
+
+        function openScenario(id) {
+            currentScenarioId = id;
+            const s = window.currentScenarios.find(item => item.id === id);
+            if (!s) return;
+
+            // Gán tiêu đề và nội dung
+            document.getElementById('modalSimTitle').innerText = s.title;
+            document.getElementById('modalSimContent').innerText = s.content || s.desc || '';
+
+            // Xử lý hiển thị video động
+            const videoContainer = document.getElementById('modalVideoContainer');
+            const videoSource = document.getElementById('modalVideoSource');
+            const videoElement = document.getElementById('modalSimulationVideo');
+
+            if (s.video_url) {
+                videoContainer.classList.remove('d-none'); // Hiện khung video
+                videoSource.src = s.video_url;             // Nạp đường dẫn video
+                videoElement.load();                       // Bắt buộc phải có dòng này để trình duyệt nạp video mới
+            } else {
+                videoContainer.classList.add('d-none');    // Ẩn khung video nếu không có
+                videoSource.src = '';
+                videoElement.pause();
+            }
+
+            document.getElementById('modalTrapFeedback').classList.add('d-none');
+
+            // Mở Modal
+            new bootstrap.Modal(document.getElementById('scenarioModal')).show();
+        }
+
+        function handleSimAction(action) {
+            const s = window.currentScenarios.find(item => item.id === currentScenarioId);
+            const feedback = document.getElementById('modalTrapFeedback');
+
+            if (action === 'trap') {
+                feedback.className = "alert alert-danger mt-3";
+                feedback.innerHTML = "<strong>❌ BẠN ĐÃ SẬP BẪY!</strong><br>" + s.trap_reason;
+                feedback.classList.remove('d-none');
+            } else {
+                feedback.className = "alert alert-success mt-3";
+                feedback.innerHTML = "<strong>✅ XỬ LÝ CHÍNH XÁC!</strong><br>Bạn đã báo cáo mối đe dọa an ninh mạng thành công cho hệ thống SOC/Security.";
+                feedback.classList.remove('d-none');
+            }
+        }
+
+        function analyzeThreatWithAI() {
+            const text = document.getElementById('aiInputText').value;
+            fetch('/api/analyze-threat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text })
+            }).then(r => r.json()).then(res => {
+                const area = document.getElementById('aiResultArea');
+                area.innerHTML = `
+                <div class="alert ${res.risk_level.includes('Cao') ? 'alert-danger' : 'alert-success'}">
+                    <h6 class="fw-bold mb-1">${res.risk_level}</h6>
+                    <p class="mb-1">${res.recommendation}</p>
+                    <ul class="mb-0 ps-3">
+                        ${res.reasons.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            });
+        }
+
+        function loadLeaderboard() {
+            fetch('/api/get-leaderboard')
+                .then(r => r.json())
+                .then(res => {
+                    const tbody = document.getElementById('leaderboardBody');
+                    tbody.innerHTML = res.all_users.sort((a, b) => b.score - a.score).map((u, idx) => `
+                    <tr>
+                        <td>${idx === 0 ? '🥇 1' : idx === 1 ? '🥈 2' : idx === 2 ? '🥉 3' : idx + 1}</td>
+                        <td class="fw-bold">${u.name} ${u.role === 'admin' ? '<span class="badge bg-danger">Admin</span>' : ''}</td>
+                        <td><span class="badge bg-primary">${u.score}/100</span></td>
+                        <td><span class="badge bg-success">${u.reports} lần</span></td>
+                        <td><span class="badge bg-danger">${u.traps} lần</span></td>
+                        <td><span class="badge ${u.risk_level === 'Thấp' ? 'bg-success' : 'bg-danger'}">${u.risk_level}</span></td>
+                    </tr>
+                `).join('');
+                });
+        }
+
+        function submitPostTest() {
+            const form = document.getElementById('formPostTest');
+            const data = { q1: form.elements['q1'].value, q2: form.elements['q2'].value };
+            fetch('/api/submit-post-test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(r => r.json()).then(res => {
+                document.getElementById('report-section').classList.remove('d-none');
+                document.getElementById('res-pre-score').innerText = res.pre_score + "/100";
+                document.getElementById('res-post-score').innerText = res.post_score + "/100";
+                document.getElementById('res-growth').innerText = (res.growth >= 0 ? "+" : "") + res.growth + "%";
+                fetchCurrentUser();
+            });
+        }
+
+        // --- CHỨC NĂNG DÀNH RIÊNG CHO ADMIN ---
+
+        function loadAdminDashboard() {
+            fetch('/api/get-admin-analytics')
+                .then(r => {
+                    if (r.status === 403) {
+                        alert("403 Forbidden: Bạn không có quyền truy cập trang Quản trị!");
+                        switchTab('pre');
+                        return null;
+                    }
+                    return r.json();
+                })
+                .then(res => {
+                    if (!res) return;
+                    document.getElementById('adminAvgPre').innerText = res.avg_pre;
+                    document.getElementById('adminAvgPost').innerText = res.avg_post;
+                    document.getElementById('adminTotalTraps').innerText = res.total_traps;
+                    document.getElementById('adminTotalReports').innerText = res.total_reports;
+                    loadAdminUsers();
+                });
+        }
+
+        function loadAdminUsers() {
+            fetch('/api/admin/users')
+                .then(r => r.json())
+                .then(res => {
+                    if (res.status === 'success') {
+                        const tbody = document.getElementById('adminUserTableBody');
+                        tbody.innerHTML = res.users.map(u => `
+                        <tr>
+                            <td>#${u.id}</td>
+                            <td class="fw-bold">${u.username}</td>
+                            <td>${u.name}</td>
+                            <td><span class="badge ${u.role === 'admin' ? 'bg-danger' : 'bg-secondary'}">${u.role}</span></td>
+                            <td><span class="badge bg-primary">${u.score}/100</span></td>
+                            <td class="text-success fw-bold">${u.reports}</td>
+                            <td class="text-danger fw-bold">${u.traps}</td>
+                            <td><span class="badge bg-warning text-dark">${u.risk_level}</span></td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-outline-warning me-1" onclick="openEditUserModal(${u.id})"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="deleteUser(${u.id})"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `).join('');
+                        window.adminUsersList = res.users;
+                    }
+                });
+        }
+
+        function openAddUserModal() {
+            document.getElementById('editUserId').value = '';
+            document.getElementById('userModalTitle').innerText = 'Thêm Người Dùng Mới';
+            document.getElementById('modalUsername').value = '';
+            document.getElementById('modalUsername').disabled = false;
+            document.getElementById('modalName').value = '';
+            document.getElementById('modalPassword').value = '';
+            document.getElementById('modalRole').value = 'user';
+            document.getElementById('modalScore').value = 0, max = 100;
+            document.getElementById('modalRisk').value = 'Thấp';
+            userBSModal.show();
+        }
+
+        function openEditUserModal(id) {
+            const u = window.adminUsersList.find(item => item.id === id);
+            if (!u) return;
+            document.getElementById('editUserId').value = u.id;
+            document.getElementById('userModalTitle').innerText = 'Chỉnh Sửa Người Dùng #' + u.id;
+            document.getElementById('modalUsername').value = u.username;
+            document.getElementById('modalUsername').disabled = true;
+            document.getElementById('modalName').value = u.name;
+            document.getElementById('modalPassword').value = '';
+            document.getElementById('modalRole').value = u.role;
+            document.getElementById('modalScore').value = u.score;
+            document.getElementById('modalRisk').value = u.risk_level;
+            userBSModal.show();
+        }
+
+        function saveUser() {
+            const id = document.getElementById('editUserId').value;
+            const username = document.getElementById('modalUsername').value;
+            const name = document.getElementById('modalName').value;
+            const password = document.getElementById('modalPassword').value;
+            const role = document.getElementById('modalRole').value;
+
+            // Lấy giá trị điểm số từ ô nhập, xử lý nếu để trống hoặc gõ bàn phím
+            const rawScore = document.getElementById('modalScore').value;
+            let score = rawScore === '' ? 0 : parseInt(rawScore, 10);
+
+            // Kiểm tra tính hợp lệ và chặn giá trị vượt quá 100
+            if (isNaN(score)) score = 0;
+
+            if (score > 100) {
+                alert('⚠️ Cảnh báo: Điểm số tối đa cho phép là 100!');
+                document.getElementById('modalScore').value = 100; // Tự động đưa về 100
+                return; // Dừng lại không gửi request
+            }
+            if (score < 0) {
+                score = 0;
+            }
+
+            const risk_level = document.getElementById('modalRisk').value;
+
+            const isEdit = !!id;
+            const url = isEdit ? `/api/admin/users/edit/${id}` : '/api/admin/users/add';
+
+            fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, name, password, role, score, risk_level })
+            }).then(r => r.json()).then(res => {
+                if (res.status === 'success') {
+                    alert(res.message);
+                    userBSModal.hide();
+                    loadAdminDashboard();
+                } else {
+                    alert(res.message);
+                }
+            });
+        }
+
+        function deleteUser(id) {
+            if (!confirm('Bạn có chắc chắn muốn xóa người dùng này khỏi hệ thống?')) return;
+            fetch(`/api/admin/users/delete/${id}`, { method: 'DELETE' })
+                .then(r => r.json())
+                .then(res => {
+                    alert(res.message);
+                    if (res.status === 'success') loadAdminDashboard();
+                });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+Flask
+pywebview
+
+# pip install -r requirements.txt
+# accounts test
+# username :admin
+# password :123
+# username :nguyenvanan
+# password :123
+# username :tranthibich
+# password:123
+# username :lehoangcuong
+# password :123
+# username :phamminhduc 
+# password:123
+# username :vuthihoa
+# password:123
+
+# keywords_phishing = ["chuyển tiền", "mật khẩu", "otp", "ngân hàng", "gấp", "click", "m&a", "cập nhật", "truy cập", "hạn chót", "phong tỏa"]
+# keywords_deepfake = ["video call", "sân bay", "sóng yếu", "chủ tịch", "cfo", "giám đốc", "thanh tra", "giọng nói"]
