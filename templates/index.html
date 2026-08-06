@@ -122,14 +122,12 @@
                                 class="fa-solid fa-book-bookmark"></i> 2. Tiêu chí Nhận diện</a></li>
                     <li><a href="#" class="nav-link" id="btn-tab-sim" onclick="switchTab('sim')"><i
                                 class="fa-solid fa-vr-cardboard"></i> 3. Tình huống Mô phỏng</a></li>
-                    <li><a href="#" class="nav-link" id="btn-tab-detector" onclick="switchTab('detector')"><i
-                                class="fa-solid fa-robot text-warning"></i> 4. AI Threat Detector</a></li>
                     <li><a href="#" class="nav-link" id="btn-tab-leaderboard" onclick="switchTab('leaderboard')"><i
-                                class="fa-solid fa-trophy text-success"></i> 5. Bảng Xếp Hạng</a></li>
+                                class="fa-solid fa-trophy text-success"></i> 4. Bảng Xếp Hạng</a></li>
                     <li><a href="#" class="nav-link" id="btn-tab-post" onclick="switchTab('post')"><i
-                                class="fa-solid fa-chart-pie"></i> 6. Khảo sát & Báo cáo</a></li>
+                                class="fa-solid fa-chart-pie"></i> 5. Khảo sát & Báo cáo</a></li>
                     <li id="menu-admin-tab" class="d-none"><a href="#" class="nav-link text-info fw-bold"
-                            id="btn-tab-admin" onclick="switchTab('admin')"><i class="fa-solid fa-user-shield"></i> 7.
+                            id="btn-tab-admin" onclick="switchTab('admin')"><i class="fa-solid fa-user-shield"></i> 6.
                             Admin Dashboard</a></li>
                 </ul>
 
@@ -266,7 +264,8 @@
                                             <li><strong>Display Name:</strong> Giả làm <code>Ms Sharon Farquhar</code>
                                                 (HR Director).</li>
                                             <li><strong>Source Email:</strong> Địa chỉ gửi thực tế lại là
-                                                <code>nancy.lefemine@coldwell...</code>.</li>
+                                                <code>nancy.lefemine@coldwell...</code>.
+                                            </li>
                                             <li><strong>Link nhấp:</strong> Nút <code>Click here...</code> dẫn tới trang
                                                 độc hại.</li>
                                             <li><strong>Fake Signature:</strong> Chữ ký giả mạo chi tiết địa chỉ, SĐT để
@@ -517,87 +516,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="tab-detector" class="tab-module d-none">
-    <h3 class="fw-bold mb-3"><i class="fa-solid fa-robot text-warning me-2"></i>Trợ lý AI Phân Tích Mối Đe Dọa (Threat Detector)</h3>
-    <p class="text-muted">Dán đoạn email, tin nhắn hoặc nội dung cuộc gọi nghi vấn vào đây để AI phân tích dấu hiệu lừa đảo.</p>
-    <div class="card p-4">
-        <div class="row">
-            <div class="col-md-7">
-                <label class="form-label fw-bold">Nội dung nghi vấn:</label>
-                <textarea class="form-control mb-3" id="aiInputText" rows="8" placeholder="Dán văn bản email, SMS hoặc đoạn hội thoại tại đây..."></textarea>
-                <button class="btn btn-warning w-100 fw-bold" onclick="analyzeThreatWithAI()">
-                    <i class="fa-solid fa-magnifying-glass-chart me-2"></i>Phân Tích Bằng AI
-                </button>
-            </div>
-            
-            <div class="col-md-5 border-start">
-                <h5 class="fw-bold mb-3">Kết Quả Phân Tích</h5>
-                <div id="aiResultArea" class="text-start small">
-                    <p class="text-muted text-center my-3">Nhập nội dung bên trái để xem kết quả phân tích.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-function analyzeThreatWithAI() {
-    const input = document.getElementById('aiInputText').value.trim();
-    const resultArea = document.getElementById('aiResultArea');
-
-    if (!input) {
-        alert('Vui lòng nhập nội dung cần phân tích!');
-        return;
-    }
-
-    // Giả lập mức rủi ro (Thay thế bằng logic/API của bạn)
-    let riskLevel = "medium"; // 'low', 'medium', 'high'
-    let title = "Nguy cơ Trung bình";
-    let message = "Yêu cầu thực hiện xác minh qua Kênh thứ 2 (Out-of-band) trước khi thực hiện giao dịch!";
-    let details = ["Có chứa một số từ ngữ nhạy cảm cần xác minh lại."];
-
-    // Cấu hình màu sắc theo phân cấp chuẩn UI/UX
-    let bgColor = "";
-    let borderColor = "";
-    let textColor = "";
-
-    if (riskLevel === "low") {
-        // Màu xanh lá nhạt - An toàn
-        bgColor = "#e6f4ea";
-        borderColor = "#ceebd6";
-        textColor = "#137333";
-        title = "Nguy cơ Thấp (An toàn)";
-    } else if (riskLevel === "medium") {
-        // Màu vàng nhạt - Cảnh báo trung bình (Đã sửa)
-        bgColor = "#fff8e6";
-        borderColor = "#ffe5a3";
-        textColor = "#b45309";
-        title = "Nguy cơ Trung bình";
-    } else if (riskLevel === "high") {
-        // Màu đỏ nhạt - Nguy hiểm
-        bgColor = "#fce8e6";
-        borderColor = "#fad2cf";
-        textColor = "#c5221f";
-        title = "Nguy cơ Cao (Nguy hiểm)";
-    }
-
-    // Render HTML kết quả
-    let detailsHTML = details.map(item => `<li>${item}</li>`).join('');
-
-    resultArea.innerHTML = `
-        <div class="p-3 rounded border" style="background-color: ${bgColor}; border-color: ${borderColor} !important;">
-            <h5 class="fw-bold mb-2" style="color: ${textColor};">${title}</h5>
-            <p class="mb-2" style="color: ${textColor}; opacity: 0.95; font-size: 13px;">
-                ${message}
-            </p>
-            <ul class="mb-0 ps-3" style="color: ${textColor}; font-size: 12px;">
-                ${detailsHTML}
-            </ul>
-        </div>
-    `;
-}
-</script>
 
                 <div id="tab-leaderboard" class="tab-module d-none">
                     <h3 class="fw-bold mb-3"><i class="fa-solid fa-trophy text-success me-2"></i>Bảng Xếp Hạng & Hệ

@@ -408,38 +408,6 @@ def get_role_scenarios(role_id):
     scenarios = ROLE_SCENARIOS.get(role_id, ROLE_SCENARIOS["accountant"])
     return jsonify({"status": "success", "role": role_id, "scenarios": scenarios})
 
-@app.route('/api/analyze-threat', methods=['POST'])
-@login_required
-def analyze_threat():
-    data = request.get_json()
-    text = data.get("text", "")
-
-    keywords_phishing = ["chuyển tiền", "mật khẩu", "otp", "ngân hàng", "gấp", "click", "m&a", "cập nhật", "truy cập", "hạn chót", "phong tỏa"]
-    keywords_deepfake = ["video call", "sân bay", "sóng yếu", "chủ tịch", "cfo", "giám đốc", "thanh tra", "giọng nói","công an"]
-
-    score_phishing = sum(1 for k in keywords_phishing if re.search(k, text, re.IGNORECASE))
-    score_deepfake = sum(1 for k in keywords_deepfake if re.search(k, text, re.IGNORECASE))
-
-    risk = "An toàn"
-    reasons = []
-
-    if score_phishing >= 2 or score_deepfake >= 2:
-        risk = "Nguy cơ Cao (Cảnh báo Lừa đảo / Deepfake)"
-        if score_phishing >= 2:
-            reasons.append("Phát hiện từ khóa hối thúc tài chính & liên kết nghi vấn Phishing.")
-        if score_deepfake >= 2:
-            reasons.append("Phát hiện ngữ cảnh giả mạo danh tính/cuộc gọi khẩn (Deepfake indicator).")
-    elif score_phishing == 1 or score_deepfake == 1:
-        risk = "Nguy cơ Trung bình"
-        reasons.append("Có chứa một số từ ngữ nhạy cảm cần xác minh lại.")
-
-    return jsonify({
-        "status": "success",
-        "risk_level": risk,
-        "reasons": reasons,
-        "recommendation": "Yêu cầu thực hiện xác minh qua Kênh thứ 2 (Out-of-band) trước khi thực hiện giao dịch!"
-    })
-
 @app.route('/api/get-leaderboard', methods=['GET'])
 @login_required
 def get_leaderboard():
