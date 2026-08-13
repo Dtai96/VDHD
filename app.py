@@ -382,15 +382,34 @@ def get_current_user():
         return jsonify({"status": "success", "user": user})
     return jsonify({"status": "error", "message": "Không tìm thấy người dùng"}), 404
 
+CORRECT_ANSWERS = {
+    "q1": "out_of_band",
+    "q2": "process",
+    "q3": "challenge",
+    "q4": "report",
+    "q5": "verify_url",
+    "q6": "keep_otp",
+    "q7": "use_vpn",
+    "q8": "hand_to_it",
+    "q9": "refuse_share",
+    "q10": "update_now"
+}
+
+def calculate_test_score(data):
+    """Hàm phụ trợ tính điểm dựa trên 10 câu hỏi"""
+    if not data:
+        return 0
+    score = 0
+    for key, correct_value in CORRECT_ANSWERS.items():
+        if data.get(key) == correct_value:
+            score += 10
+    return score
+
 @app.route('/api/submit-pre-test', methods=['POST'])
 @login_required
 def submit_pre_test():
-    data = request.get_json()
-    score = 0
-    if data.get("q1") == "out_of_band": score += 25
-    if data.get("q2") == "process": score += 25
-    if data.get("q3") == "challenge": score += 25
-    if data.get("q4") == "report": score += 25
+    data = request.get_json() or {}
+    score = calculate_test_score(data)
 
     user = next((u for u in db_users if u['id'] == session.get('user_id')), None)
     if user:
@@ -416,12 +435,8 @@ def get_leaderboard():
 @app.route('/api/submit-post-test', methods=['POST'])
 @login_required
 def submit_post_test():
-    data = request.get_json()
-    post_score = 0
-    if data.get("q1") == "out_of_band": post_score += 25
-    if data.get("q2") == "process": post_score += 25
-    if data.get("q3") == "challenge": post_score += 25
-    if data.get("q4") == "report": post_score += 25
+    data = request.get_json() or {}
+    post_score = calculate_test_score(data)
 
     user = next((u for u in db_users if u['id'] == session.get('user_id')), None)
     pre_score = 0

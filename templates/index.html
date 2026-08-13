@@ -118,10 +118,10 @@
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li><a href="#" class="nav-link active" id="btn-tab-pre" onclick="switchTab('pre')"><i
                                 class="fa-solid fa-clipboard-check"></i> 1. Khảo sát Đầu vào</a></li>
-                    <li><a href="#" class="nav-link" id="btn-tab-criteria" onclick="switchTab('criteria')"><i
-                                class="fa-solid fa-book-bookmark"></i> 2. Tiêu chí Nhận diện</a></li>
                     <li><a href="#" class="nav-link" id="btn-tab-sim" onclick="switchTab('sim')"><i
-                                class="fa-solid fa-vr-cardboard"></i> 3. Tình huống Mô phỏng</a></li>
+                                class="fa-solid fa-vr-cardboard"></i> 2. Bộ Tình Huống Giả Lập An Toàn</a></li>
+                    <li><a href="#" class="nav-link" id="btn-tab-criteria" onclick="switchTab('criteria')"><i
+                                class="fa-solid fa-book-bookmark"></i> 3. Tiêu chí Nhận diện</a></li>
                     <li><a href="#" class="nav-link" id="btn-tab-leaderboard" onclick="switchTab('leaderboard')"><i
                                 class="fa-solid fa-trophy text-success"></i> 4. Bảng Xếp Hạng</a></li>
                     <li><a href="#" class="nav-link" id="btn-tab-post" onclick="switchTab('post')"><i
@@ -165,46 +165,164 @@
                             <div class="mb-4">
                                 <label class="form-label fw-bold">1. Khi nhận email từ Sếp yêu cầu chuyển khoản gấp cho
                                     đối tác mới với từ ngữ cực kỳ thuyết phục, hành động đầu tiên của bạn là gì?</label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
-                                        value="click" id="pre1_1"><label class="form-check-label" for="pre1_1">Thực hiện
-                                        ngay vì đúng uy quyền của Sếp và văn bản chuẩn chỉnh.</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
-                                        value="out_of_band" id="pre1_2"><label class="form-check-label"
-                                        for="pre1_2">Dừng lại, gọi lại bằng số điện thoại nội bộ (Kênh thứ 2) để xác
-                                        minh trực tiếp.</label></div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="click" id="pre1_1">
+                                    <label class="form-check-label" for="pre1_1">Thực hiện ngay vì đúng uy quyền của Sếp
+                                        và văn bản chuẩn chỉnh.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="out_of_band"
+                                        id="pre1_2">
+                                    <label class="form-check-label" for="pre1_2">Dừng lại, gọi lại bằng số điện thoại
+                                        nội bộ (Kênh thứ 2) để xác minh trực tiếp.</label>
+                                </div>
                             </div>
+
                             <div class="mb-4">
                                 <label class="form-label fw-bold">2. Công nghệ AI hiện nay đã loại bỏ hoàn toàn các lỗi
                                     chính tả và ngữ pháp trong văn bản lừa đảo. Phương pháp phát hiện nào là cốt
                                     lõi?</label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
-                                        value="grammar" id="pre2_1"><label class="form-check-label" for="pre2_1">Đọc kỹ
-                                        để tìm lỗi đánh máy nhỏ.</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
-                                        value="process" id="pre2_2"><label class="form-check-label" for="pre2_2">Chuyển
-                                        sang Kiểm soát Quy trình: Kiểm tra Domain gửi và yêu cầu xác minh ngoài
-                                        luồng.</label></div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="grammar" id="pre2_1">
+                                    <label class="form-check-label" for="pre2_1">Đọc kỹ để tìm lỗi đánh máy nhỏ.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="process" id="pre2_2">
+                                    <label class="form-check-label" for="pre2_2">Chuyển sang Kiểm soát Quy trình: Kiểm
+                                        tra Domain gửi và yêu cầu xác minh ngoài luồng.</label>
+                                </div>
                             </div>
+
                             <div class="mb-4">
                                 <label class="form-label fw-bold">3. Trong cuộc gọi Video Call nghi ngờ Deepfake (khuôn
                                     mặt hơi cứng, khớp khẩu hình trễ), hành động đúng nhất là?</label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q3"
-                                        value="trust" id="pre3_1"><label class="form-check-label" for="pre3_1">Tiếp tục
-                                        cuộc gọi và làm theo yêu cầu vì đã thấy hình ảnh người thật.</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q3"
-                                        value="challenge" id="pre3_2"><label class="form-check-label" for="pre3_2">Yêu
-                                        cầu đối phương thực hiện một hành động ngẫu nhiên (xoay mặt, xua tay) hoặc cúp
-                                        máy gọi lại.</label></div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="trust" id="pre3_1">
+                                    <label class="form-check-label" for="pre3_1">Tiếp tục cuộc gọi và làm theo yêu cầu
+                                        vì đã thấy hình ảnh người thật.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="challenge"
+                                        id="pre3_2">
+                                    <label class="form-check-label" for="pre3_2">Yêu cầu đối phương thực hiện một hành
+                                        động ngẫu nhiên (xoay mặt, xua tay) hoặc cúp máy gọi lại.</label>
+                                </div>
                             </div>
+
                             <div class="mb-4">
                                 <label class="form-label fw-bold">4. Khi phát hiện một tin nhắn/email nghi vấn lừa đảo
                                     trong tổ chức, bạn nên làm gì?</label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q4"
-                                        value="ignore" id="pre4_1"><label class="form-check-label" for="pre4_1">Xóa tin
-                                        nhắn/email và không làm gì thêm.</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q4"
-                                        value="report" id="pre4_2"><label class="form-check-label" for="pre4_2">Bấm nút
-                                        "Báo cáo" (Report) lập tức để hệ thống cảnh báo chung cho mọi người.</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q4" value="ignore" id="pre4_1">
+                                    <label class="form-check-label" for="pre4_1">Xóa tin nhắn/email và không làm gì
+                                        thêm.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q4" value="report" id="pre4_2">
+                                    <label class="form-check-label" for="pre4_2">Bấm nút "Báo cáo" (Report) lập tức để
+                                        hệ thống cảnh báo chung cho mọi người.</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">5. Bạn nhận được email từ Ngân hàng thông báo "Tài
+                                    khoản tạm ngưng, nhấp vào liên kết để xác thực ngay". Bạn nên?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q5" value="click_link"
+                                        id="pre5_1">
+                                    <label class="form-check-label" for="pre5_1">Nhấp vào liên kết trong email và đăng
+                                        nhập thông tin để mở khóa.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q5" value="verify_url"
+                                        id="pre5_2">
+                                    <label class="form-check-label" for="pre5_2">Tuyệt đối không nhấp link, chủ động mở
+                                        trình duyệt gõ địa chỉ chính thức của Ngân hàng để kiểm tra.</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">6. Bạn bất ngờ nhận được mã OTP qua SMS nhưng không
+                                    thực hiện thao tác đăng nhập nào, sau đó có người gọi đến xưng là nhân viên kỹ thuật
+                                    xin mã OTP để "hủy lệnh giả mạo". Bạn nên?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q6" value="keep_otp" id="pre6_1">
+                                    <label class="form-check-label" for="pre6_1">Không đọc mã OTP cho bất kỳ ai, cúp máy
+                                        và đổi mật khẩu tài khoản ngay lập tức.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q6" value="share_otp"
+                                        id="pre6_2">
+                                    <label class="form-check-label" for="pre6_2">Cung cấp mã OTP ngay để nhân viên hỗ
+                                        trợ xử lý kịp thời.</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">7. Khi làm việc từ xa tại quán cà phê và kết nối Wi-Fi
+                                    công cộng, giải pháp nào giúp bảo vệ dữ liệu truyền tải an toàn nhất?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q7" value="normal_wifi"
+                                        id="pre7_1">
+                                    <label class="form-check-label" for="pre7_1">Sử dụng bình thường vì Wi-Fi quán cà
+                                        phê đã có mật khẩu đăng nhập.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q7" value="use_vpn" id="pre7_2">
+                                    <label class="form-check-label" for="pre7_2">Bật kết nối Mạng riêng ảo (VPN) của tổ
+                                        chức để mã hóa đường truyền.</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">8. Bạn nhặt được một USB lạ ở khu vực hành lang hoặc
+                                    bãi xe của công ty. Thao tác xử lý đúng quy trình an ninh mạng là?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q8" value="plug_in" id="pre8_1">
+                                    <label class="form-check-label" for="pre8_1">Cắm vào máy tính cá nhân/công ty để mở
+                                        file xem USB đó thuộc sở hữu của ai.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q8" value="hand_to_it"
+                                        id="pre8_2">
+                                    <label class="form-check-label" for="pre8_2">Tuyệt đối không cắm vào thiết bị, bàn
+                                        giao USB ngay cho bộ phận IT/Security.</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">9. Đồng nghiệp cùng phòng nhờ bạn cung cấp mật khẩu
+                                    tài khoản nội bộ để duyệt gấp tài liệu trong lúc họ nghỉ phép, bạn xử lý ra
+                                    sao?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q9" value="refuse_share"
+                                        id="pre9_1">
+                                    <label class="form-check-label" for="pre9_1">Từ chối chia sẻ mật khẩu và hướng dẫn
+                                        đồng nghiệp liên hệ IT để cấp quyền truy cập hợp lệ.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q9" value="give_pass"
+                                        id="pre9_2">
+                                    <label class="form-check-label" for="pre9_2">Gửi mật khẩu qua tin nhắn Zalo/Slack vì
+                                        công việc chung đang khẩn cấp.</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">10. Hệ điều hành trên máy tính công ty hiển thị thông
+                                    báo "Cập nhật bản vá bảo mật quan trọng (Critical Security Patch)". Hành động chuẩn
+                                    là?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q10" value="postpone"
+                                        id="pre10_1">
+                                    <label class="form-check-label" for="pre10_1">Liên tục chọn "Tạm hoãn 7 ngày" để
+                                        tránh làm gián đoạn công việc đang làm.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q10" value="update_now"
+                                        id="pre10_2">
+                                    <label class="form-check-label" for="pre10_2">Lưu lại công việc và tiến hành cập
+                                        nhật/khởi động lại máy theo thời gian khuyến nghị.</label>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-primary btn-lg" onclick="submitPreTest()"><i
@@ -331,7 +449,7 @@
                                     </a>
 
                                     <div class="p-2 bg-white rounded border-start border-4"
-                                        style="border-start-color: #a855f7 !important;">
+                                        style="border-left-color: #a855f7 !important;">
                                         <p class="mb-1 text-dark fw-bold" style="font-size: 11px;">
                                             <i class="fa-solid fa-comment-dots me-1" style="color: #a855f7;"></i> Lời
                                             thoại mẫu:
@@ -565,27 +683,176 @@
                     <div class="card p-4 mb-4">
                         <h5 class="fw-bold mb-3">Khảo sát Đầu ra (Post-Test)</h5>
                         <form id="formPostTest">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label class="form-label fw-bold">1. Phương pháp nào phòng chống lừa đảo CEO/Deepfake
                                     hiệu quả nhất?</label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
-                                        value="click" id="post1_1"><label class="form-check-label" for="post1_1">Xem kỹ
-                                        khuôn mặt trong video call.</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q1"
-                                        value="out_of_band" id="post1_2"><label class="form-check-label"
-                                        for="post1_2">Xác minh qua Kênh thứ 2 độc lập (Out-of-band
-                                        Verification).</label></div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="click" id="post1_1">
+                                    <label class="form-check-label" for="post1_1">Xem kỹ khuôn mặt trong video
+                                        call.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q1" value="out_of_band"
+                                        id="post1_2">
+                                    <label class="form-check-label" for="post1_2">Xác minh qua Kênh thứ 2 độc lập
+                                        (Out-of-band Verification).</label>
+                                </div>
                             </div>
-                            <div class="mb-3">
+
+                            <!-- Câu 2 -->
+                            <div class="mb-4">
                                 <label class="form-label fw-bold">2. Khi phát hiện yêu cầu chuyển khoản lạ qua
                                     Zalo/Email của Sếp, bước xử lý chuẩn là?</label>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
-                                        value="process" id="post2_1"><label class="form-check-label" for="post2_1">Dừng
-                                        lại, không chuyển tiền và báo cáo cho bộ phận Security/IT.</label></div>
-                                <div class="form-check"><input class="form-check-input" type="radio" name="q2"
-                                        value="pay" id="post2_2"><label class="form-check-label" for="post2_2">Chuyển
-                                        tiền tạm rồi báo sau.</label></div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="process" id="post2_1">
+                                    <label class="form-check-label" for="post2_1">Dừng lại, không chuyển tiền và báo cáo
+                                        cho bộ phận Security/IT.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q2" value="pay" id="post2_2">
+                                    <label class="form-check-label" for="post2_2">Chuyển tiền tạm rồi báo sau.</label>
+                                </div>
                             </div>
+
+                            <!-- Câu 3 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">3. Khi nhận được email có liên kết yêu cầu truy cập
+                                    gấp để "Cập nhật mật khẩu/Tài khoản bị khóa", hành động đúng là?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="click" id="post3_1">
+                                    <label class="form-check-label" for="post3_1">Nhấp vào link ngay để tránh bị khóa
+                                        tài khoản.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q3" value="challenge"
+                                        id="post3_2">
+                                    <label class="form-check-label" for="post3_2">Không nhấp link, kiểm tra lại địa chỉ
+                                        email người gửi và báo cáo cho bộ phận An ninh mạng.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 4 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">4. Bạn bất ngờ nhận được tin nhắn chứa mã OTP xác thực
+                                    đăng nhập dù không hề thực hiện thao tác nào, bạn nên làm gì?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q4" value="report" id="post4_1">
+                                    <label class="form-check-label" for="post4_1">Tuyệt đối không chia sẻ mã OTP, chủ
+                                        động đổi mật khẩu và báo IT kiểm tra.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q4" value="share" id="post4_2">
+                                    <label class="form-check-label" for="post4_2">Đọc mã OTP nếu có người gọi điện xưng
+                                        là nhân viên hỗ trợ hệ thống.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 5 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">5. Khi nghi ngờ một trang web đăng nhập dịch vụ nội bộ
+                                    bị làm giả (Phishing Site), cách kiểm tra an toàn nhất là gì?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q5" value="click_link"
+                                        id="post5_1">
+                                    <label class="form-check-label" for="post5_1">Thử nhập tài khẩu/mật khẩu thật xem hệ
+                                        thống có chấp nhận không.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q5" value="verify_url"
+                                        id="post5_2">
+                                    <label class="form-check-label" for="post5_2">Kiểm tra kỹ tên miền (Domain) trên
+                                        thanh địa chỉ URL và chứng chỉ SSL/TLS.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 6 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">6. Nếu lỡ tay bấm vào một liên kết nghi ngờ chứa mã
+                                    độc trong email, hành động xử lý khẩn cấp đầu tiên là gì?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q6" value="keep_otp"
+                                        id="post6_1">
+                                    <label class="form-check-label" for="post6_1">Ngắt kết nối mạng (Wi-Fi/Cáp mạng) của
+                                        thiết bị ngay lập tức và báo cáo cho bộ phận IT Security.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q6" value="share_otp"
+                                        id="post6_2">
+                                    <label class="form-check-label" for="post6_2">Tắt màn hình máy tính và tiếp tục làm
+                                        việc bình thường vào ngày hôm sau.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 7 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">7. Khi làm việc ngoài văn phòng, biện pháp nào đảm bảo
+                                    an toàn dữ liệu truyền tải qua các mạng Wi-Fi công cộng?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q7" value="normal_wifi"
+                                        id="post7_1">
+                                    <label class="form-check-label" for="post7_1">Chỉ sử dụng Wi-Fi có đặt mật khẩu truy
+                                        cập của địa điểm đó.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q7" value="use_vpn" id="post7_2">
+                                    <label class="form-check-label" for="post7_2">Luôn bật kết nối VPN do tổ chức/công
+                                        ty cung cấp trước khi truy cập tài nguyên nội bộ.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 8 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">8. Khi nhặt được một thiết bị lưu trữ ngoại vi (USB,
+                                    thẻ nhớ) ở khu vực công cộng của công ty, nguyên tắc an toàn là?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q8" value="plug_in" id="post8_1">
+                                    <label class="form-check-label" for="post8_1">Cắm vào máy tính cá nhân để quét phần
+                                        mềm diệt virus xem có an toàn không.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q8" value="hand_to_it"
+                                        id="post8_2">
+                                    <label class="form-check-label" for="post8_2">Tuyệt đối không kết nối thiết bị vào
+                                        bất kỳ máy tính nào và chuyển giao cho bộ phận IT/Security.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 9 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">9. Khi cần chia sẻ thông tin tài khoản đăng nhập cho
+                                    đồng nghiệp để xử lý công việc khẩn cấp, bạn nên làm gì?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q9" value="refuse_share"
+                                        id="post9_1">
+                                    <label class="form-check-label" for="post9_1">Từ chối chia sẻ tài khoản cá nhân và
+                                        yêu cầu cấp quyền chính thức qua hệ thống quản lý truy cập.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q9" value="give_pass"
+                                        id="post9_2">
+                                    <label class="form-check-label" for="post9_2">Gửi tài khoản và mật khẩu qua tin nhắn
+                                        Zalo/Chat nội bộ rồi đổi lại sau.</label>
+                                </div>
+                            </div>
+
+                            <!-- Câu 10 -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">10. Thái độ đúng đắn đối với các thông báo cập nhật
+                                    bản vá an ninh (Security Update) trên thiết bị làm việc là?</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q10" value="postpone"
+                                        id="post10_1">
+                                    <label class="form-check-label" for="post10_1">Hoãn cập nhật liên tục để không bị
+                                        gián đoạn tiến độ công việc.</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="q10" value="update_now"
+                                        id="post10_2">
+                                    <label class="form-check-label" for="post10_2">Chủ động lưu trữ công việc và tiến
+                                        hành cập nhật/khởi động lại máy kịp thời.</label>
+                                </div>
+                            </div>
+
                             <button type="button" class="btn btn-success fw-bold" onclick="submitPostTest()"><i
                                     class="fa-solid fa-chart-line me-2"></i>Nộp Bài & Xem Báo Cáo Tiến Bộ</button>
                         </form>
@@ -799,23 +1066,32 @@
 
         function submitPreTest() {
             const form = document.getElementById('formPreTest');
-            const data = {
-                user_name: document.getElementById('inputUserName').value,
-                q1: form.elements['q1'].value,
-                q2: form.elements['q2'].value,
-                q3: form.elements['q3'].value,
-                q4: form.elements['q4'].value
-            };
+            const formData = new FormData(form);
+
+            // Tự động chuyển tất cả input radio đã chọn thành Object
+            const data = Object.fromEntries(formData.entries());
+
+            // Thêm user_name
+            data.user_name = document.getElementById('inputUserName')?.value || '';
+
+            // Kiểm tra đã chọn đủ 10 câu chưa
+            const answeredCount = Object.keys(data).filter(k => k.startsWith('q')).length;
+            if (answeredCount < 10) {
+                alert('Vui lòng hoàn thành đủ 10 câu hỏi trước khi nộp bài!');
+                return;
+            }
 
             fetch('/api/submit-pre-test', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
-            }).then(r => r.json()).then(res => {
-                alert('Đã hoàn thành khảo sát Pre-Test! Điểm của bạn: ' + res.score + '/100');
-                fetchCurrentUser();
-                switchTab('criteria');
-            });
+            })
+                .then(r => r.json())
+                .then(res => {
+                    alert('Đã hoàn thành khảo sát Pre-Test! Điểm của bạn: ' + res.score + '/100');
+                    if (typeof fetchCurrentUser === 'function') fetchCurrentUser();
+                    if (typeof switchTab === 'function') switchTab('sim');
+                });
         }
 
         function loadRoleScenarios() {
@@ -852,11 +1128,11 @@
             const videoElement = document.getElementById('modalSimulationVideo');
 
             if (s.video_url) {
-                videoContainer.classList.remove('d-none'); // Hiện khung video
-                videoSource.src = s.video_url;             // Nạp đường dẫn video
-                videoElement.load();                       // Bắt buộc phải có dòng này để trình duyệt nạp video mới
+                videoContainer.classList.remove('d-none');
+                videoSource.src = s.video_url;
+                videoElement.load();
             } else {
-                videoContainer.classList.add('d-none');    // Ẩn khung video nếu không có
+                videoContainer.classList.add('d-none');
                 videoSource.src = '';
                 videoElement.pause();
             }
@@ -922,18 +1198,34 @@
 
         function submitPostTest() {
             const form = document.getElementById('formPostTest');
-            const data = { q1: form.elements['q1'].value, q2: form.elements['q2'].value };
+            const data = {};
+
+            // Thu thập và kiểm tra đủ 10 câu
+            for (let i = 1; i <= 10; i++) {
+                const val = form.elements[`q${i}`]?.value;
+                if (!val) {
+                    alert(`Vui lòng chọn đáp án cho câu hỏi số ${i}!`);
+                    return;
+                }
+                data[`q${i}`] = val;
+            }
+
+            // Gửi API
             fetch('/api/submit-post-test', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
-            }).then(r => r.json()).then(res => {
-                document.getElementById('report-section').classList.remove('d-none');
-                document.getElementById('res-pre-score').innerText = res.pre_score + "/100";
-                document.getElementById('res-post-score').innerText = res.post_score + "/100";
-                document.getElementById('res-growth').innerText = (res.growth >= 0 ? "+" : "") + res.growth + "%";
-                fetchCurrentUser();
-            });
+            })
+                .then(r => r.json())
+                .then(res => {
+                    document.getElementById('report-section').classList.remove('d-none');
+                    document.getElementById('res-pre-score').innerText = res.pre_score + "/100";
+                    document.getElementById('res-post-score').innerText = res.post_score + "/100";
+                    document.getElementById('res-growth').innerText = (res.growth >= 0 ? "+" : "") + res.growth + "%";
+
+                    if (typeof fetchCurrentUser === 'function') fetchCurrentUser();
+                })
+                .catch(err => console.error("Lỗi khi nộp bài:", err));
         }
 
         // --- CHỨC NĂNG DÀNH RIÊNG CHO ADMIN ---
