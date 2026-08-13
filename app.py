@@ -1,6 +1,4 @@
 import threading
-import re
-import random
 import webview
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
