@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, session, redirect, u
 app = Flask(__name__, static_folder='statics')
 app.secret_key = "cyberaware_secret_key_protection_2026"  # Khóa bảo mật Flask Session
 
-# CẤU HÌNH AN TOÀN: Khóa môi trường Sandbox (Chỉ diễn tập nội bộ, cấm gửi email thực)
+# CẤU HÌNH AN TOÀN: Khóa môi trường Sandbox 
 SANDBOX_SAFETY_LOCK = True
 
 # Danh sách tên ngẫu nhiên để khởi tạo bảng xếp hạng và người dùng mẫu
@@ -394,7 +394,7 @@ CORRECT_ANSWERS = {
 }
 
 def calculate_test_score(data):
-    """Hàm phụ trợ tính điểm dựa trên 10 câu hỏi"""
+    """Hàm phụ trợ tính điểm """
     if not data:
         return 0
     score = 0

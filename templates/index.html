@@ -333,67 +333,81 @@
 
                 <div id="tab-criteria" class="tab-module d-none">
                     <h3 class="fw-bold mb-3"><i class="fa-solid fa-list-check text-success me-2"></i>Bộ Tiêu chí Nhận
-                        diện Lừa đảo Thế hệ Mới (AI Era)</h3>
-                    <p class="text-muted">Các quy tắc giúp nhận diện nguy cơ khi ranh giới Thật - Giả bị xóa bỏ bởi AI.
-                    </p>
+                        diện </h3>
 
                     <div class="row g-4">
-                        <!-- 1. Spear Phishing  -->
+                        <!-- 1. Social Engineering -->
                         <div class="col-md-4">
                             <div class="card p-3 h-100 border-top border-danger border-4">
-                                <h5 class="fw-bold text-danger"><i class="fa-solid fa-envelope-open-text me-2"></i>1.
-                                    Spear Phishing (Email cá nhân hóa)</h5>
+                                <h5 class="fw-bold text-danger">
+                                    <i class="fa-solid fa-user-secret me-2"></i>1. Social Engineering
+                                </h5>
                                 <ul class="small mt-2 mb-2">
-                                    <li><strong>Mạo danh nhân sự nội bộ:</strong> Giả danh đồng nghiệp, Giám đốc HR/Kế
-                                        toán để tăng độ tin cậy.</li>
-                                    <li><strong>Địa chỉ gửi (Domain):</strong> Tên hiển thị thật nhưng email nguồn hoàn
-                                        toàn lệch (VD: <code>@coldwellbankermoves.com</code>).</li>
-                                    <li><strong>Chữ ký & Ngữ cảnh giả:</strong> Sao chép chữ ký, chức danh thật nhằm dụ
-                                        bấm liên kết độc hại.</li>
+                                    <li><strong>Đường link nghi vấn:</strong> Các liên kết lạ, đáng ngờ xuất hiện tràn
+                                        lan trên mạng xã hội.</li>
+                                    <li><strong>Tệp đính kèm nguy hiểm:</strong> Các file gửi kèm có đuôi chứa mã độc
+                                        như .zip, .dll, hoặc .exe.</li>
+                                    <li><strong>Pop-up trúng thưởng:</strong> Cửa sổ bật lên thông báo nhận quà, trúng
+                                        thưởng lừa đảo để dụ click.</li>
                                 </ul>
 
-                                <!-- Khung hiển thị Ảnh ví dụ minh họa -->
                                 <div class="bg-light p-2 rounded border mt-auto">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
                                         <span class="badge bg-danger text-white">
                                             <i class="fa-solid fa-triangle-exclamation me-1"></i>Ví dụ thực tế
                                         </span>
-                                        <small class="text-muted" style="font-size: 10px;">Spear Phishing HR</small>
+                                        <small class="text-muted" style="font-size: 10px;">Mạo danh IT Support / Người
+                                            quen</small>
                                     </div>
 
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#spearModal"
-                                        class="d-block position-relative role-button">
-                                        <img src="/statics/images/test1.jpg"
-                                            class="img-fluid rounded border shadow-sm mb-2 example-img"
-                                            alt="Ví dụ Spear Phishing">
-                                        <span
-                                            class="position-absolute bottom-0 end-0 bg-dark text-white p-1 rounded-start opacity-75 small me-1 mb-3"
-                                            style="font-size: 10px;">
-                                            <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
-                                        </span>
-                                    </a>
+                                    <div class="d-flex flex-column gap-2 mb-2">
+                                        <!-- Ảnh dọc 1 -->
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#socialEngModal1"
+                                            class="d-block position-relative role-button overflow-hidden rounded border shadow-sm">
+                                            <img src="/statics/images/social1.jpg"
+                                                class="img-fluid rounded w-100 example-img"
+                                                style="max-height: 140px; object-fit: cover; object-position: top;"
+                                                alt="Ví dụ Social Engineering 1">
+                                            <span
+                                                class="position-absolute bottom-0 end-0 bg-dark text-white p-1 rounded-start opacity-75 small me-1 mb-1"
+                                                style="font-size: 10px;">
+                                                <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                            </span>
+                                        </a>
+
+                                        <a href="#" data-bs-toggle="modal" data-bs-target="#socialEngModal2"
+                                            class="d-block position-relative role-button overflow-hidden rounded border shadow-sm">
+                                            <img src="/statics/images/social2.jpg"
+                                                class="img-fluid rounded w-100 example-img"
+                                                style="max-height: 140px; object-fit: cover; object-position: top;"
+                                                alt="Ví dụ Social Engineering 2">
+                                            <span
+                                                class="position-absolute bottom-0 end-0 bg-dark text-white p-1 rounded-start opacity-75 small me-1 mb-1"
+                                                style="font-size: 10px;">
+                                                <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                            </span>
+                                        </a>
+                                    </div>
 
                                     <div class="p-2 bg-white rounded border-start border-danger border-3">
                                         <p class="mb-1 text-dark fw-bold" style="font-size: 11px;">
-                                            <i class="fa-solid fa-magnifying-glass me-1 text-danger"></i> 4 Bẫy soi trên
-                                            ảnh:
+                                            <i class="fa-solid fa-magnifying-glass me-1 text-danger"></i> 4 Bẫy soi kịch
+                                            bản lừa đảo:
                                         </p>
                                         <ol class="text-muted mb-0 ps-3" style="font-size: 10px;">
-                                            <li><strong>Display Name:</strong> Giả làm <code>Ms Sharon Farquhar</code>
-                                                (HR Director).</li>
-                                            <li><strong>Source Email:</strong> Địa chỉ gửi thực tế lại là
-                                                <code>nancy.lefemine@coldwell...</code>.
-                                            </li>
-                                            <li><strong>Link nhấp:</strong> Nút <code>Click here...</code> dẫn tới trang
-                                                độc hại.</li>
-                                            <li><strong>Fake Signature:</strong> Chữ ký giả mạo chi tiết địa chỉ, SĐT để
-                                                đánh lừa.</li>
+                                            <li><strong>Tạo áp lực thời gian:</strong> Yêu cầu xử lý gấp trong 5 phút
+                                                nếu không sẽ bị dọa khóa tài khoản.</li>
+                                            <li><strong>Hỏi trực tiếp OTP/Pass:</strong> Lấy cớ "xác minh hệ thống" để
+                                                yêu cầu đọc mã OTP hoặc mật khẩu.</li>
+                                            <li><strong>Kênh liên lạc lạ:</strong> Sử dụng số điện thoại cá nhân,
+                                                Telegram/Zalo thay vì kênh IT chính thức.</li>
+                                            <li><strong>Xác thực giả:</strong> Cố tình đọc đúng tên/chức danh công khai
+                                                của bạn để tạo lòng tin ban đầu.</li>
                                         </ol>
                                     </div>
                                 </div>
 
-                                <div class="modal fade" id="spearModal" tabindex="-1" aria-labelledby="spearModalLabel"
-                                    aria-hidden="true">
+                                <div class="modal fade" id="socialEngModal1" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content bg-transparent border-0">
                                             <div class="modal-header border-0 pb-0">
@@ -401,8 +415,23 @@
                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body text-center pt-1">
-                                                <img src="/statics/images/test1.jpg" class="img-fluid rounded shadow-lg"
-                                                    alt="Phóng to Spear Phishing">
+                                                <img src="/statics/images/social1.jpg"
+                                                    class="img-fluid rounded shadow-lg">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="socialEngModal2" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/social2.jpg"
+                                                    class="img-fluid rounded shadow-lg">
                                             </div>
                                         </div>
                                     </div>
@@ -410,49 +439,307 @@
                             </div>
                         </div>
 
-                        <!-- 2. Deepfake Video / Vishing Call -->
+                        <!-- 2. Phishing -->
                         <div class="col-md-4">
-                            <div class="card p-3 h-100 border-top border-purple border-4"
-                                style="border-top-color: #a855f7 !important;">
-                                <h5 class="fw-bold" style="color: #a855f7;"><i class="fa-solid fa-video me-2"></i>2.
-                                    Deepfake Video / Vishing Call</h5>
+                            <div class="card p-3 h-100 border-top border-warning border-4">
+                                <h5 class="fw-bold text-warning">
+                                    <i class="fa-solid fa-file-invoice me-2"></i>2. Phishing
+                                </h5>
                                 <ul class="small mt-2 mb-2">
-                                    <li><strong>Bất thường thị giác:</strong> Mắt ít chớp, viền mặt bị nhòe khi di
-                                        chuyển, khớp khẩu hình lệch.</li>
-                                    <li><strong>Cái bẫy tín hiệu:</strong> Thường nói "đang ở sân bay", "sóng yếu" để
-                                        che giấu lỗi AI.</li>
-                                    <li><strong>Thử thách (Challenge):</strong> Yêu cầu đối phương xoay mặt 90 độ hoặc
-                                        giơ tay trước mặt.</li>
+                                    <li><strong>Mạo danh tổ chức & Cơ quan:</strong> Giả danh cơ quan nhà nước, công ty
+                                        hoặc thông báo email doanh nghiệp tràn dữ liệu.</li>
+                                    <li><strong>Cảnh báo bảo mật:</strong> Thông báo tài khoản bị xâm nhập, yêu cầu xác
+                                        minh hoặc đổi mật khẩu khẩn cấp.</li>
+                                    <li><strong>Chiêu trò tài chính:</strong> Giả mạo xác nhận đơn hàng, thông báo quá
+                                        hạn thanh toán, rút tiền hoặc trúng thưởng lớn.</li>
+                                    <li><strong>Tống tiền & Lợi dụng lòng tin:</strong> Giả làm người quen mượn tiền,
+                                        đóng giả nạn nhân gặp nạn để yêu cầu chuyển khoản.</li>
                                 </ul>
 
                                 <div class="bg-light p-2 rounded border mt-auto">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fa-solid fa-triangle-exclamation me-1"></i>Ví dụ thực tế
+                                        </span>
+                                        <small class="text-muted" style="font-size: 10px;"></small>
+                                    </div>
+
+                                    <div class="d-flex flex-column gap-2 mb-2 pe-1"
+                                        style="max-height: 520px; overflow-y: auto;">
+
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#phishingModal1"
+                                                    class="d-block position-relative role-button overflow-hidden rounded-3 border shadow-sm bg-white h-100">
+                                                    <img src="/statics/images/phishing1.jpg"
+                                                        class="img-fluid w-100 rounded example-img"
+                                                        style="height: 150px; object-fit: cover; object-position: top;"
+                                                        alt="Ví dụ Phishing 1">
+                                                    <span
+                                                        class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                        style="font-size: 9px;">
+                                                        <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#phishingModal2"
+                                                    class="d-block position-relative role-button overflow-hidden rounded-3 border shadow-sm bg-white h-100">
+                                                    <img src="/statics/images/phishing2.jpg"
+                                                        class="img-fluid w-100 rounded example-img"
+                                                        style="height: 150px; object-fit: cover; object-position: top;"
+                                                        alt="Ví dụ Phishing 2">
+                                                    <span
+                                                        class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                        style="font-size: 9px;">
+                                                        <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#phishingModal3"
+                                                    class="d-block position-relative role-button overflow-hidden rounded-3 border shadow-sm bg-white h-100">
+                                                    <img src="/statics/images/phishing3.jpg"
+                                                        class="img-fluid w-100 rounded example-img"
+                                                        style="height: 150px; object-fit: cover; object-position: top;"
+                                                        alt="Ví dụ Phishing 3">
+                                                    <span
+                                                        class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                        style="font-size: 9px;">
+                                                        <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#phishingModal4"
+                                                    class="d-block position-relative role-button overflow-hidden rounded-3 border shadow-sm bg-white h-100">
+                                                    <img src="/statics/images/phishing4.jpg"
+                                                        class="img-fluid w-100 rounded example-img"
+                                                        style="height: 150px; object-fit: cover; object-position: top;"
+                                                        alt="Ví dụ Phishing 4">
+                                                    <span
+                                                        class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                        style="font-size: 9px;">
+                                                        <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="row g-2">
+                                            <div class="col-6">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#phishingModal5"
+                                                    class="d-block position-relative role-button overflow-hidden rounded-3 border shadow-sm bg-white h-100">
+                                                    <img src="/statics/images/phishing5.jpg"
+                                                        class="img-fluid w-100 rounded example-img"
+                                                        style="height: 150px; object-fit: cover; object-position: top;"
+                                                        alt="Ví dụ Phishing 5">
+                                                    <span
+                                                        class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                        style="font-size: 9px;">
+                                                        <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                            <div class="col-6">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#phishingModal6"
+                                                    class="d-block position-relative role-button overflow-hidden rounded-3 border shadow-sm bg-white h-100">
+                                                    <img src="/statics/images/phishing6.jpg"
+                                                        class="img-fluid w-100 rounded example-img"
+                                                        style="height: 150px; object-fit: cover; object-position: top;"
+                                                        alt="Ví dụ Phishing 6">
+                                                    <span
+                                                        class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                        style="font-size: 9px;">
+                                                        <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="p-2 bg-white rounded border-start border-warning border-3 mt-2">
+                                        <p class="mb-1 text-dark fw-bold" style="font-size: 11px;">
+                                            <i class="fa-solid fa-magnifying-glass me-1 text-danger"></i> 4 Bẫy soi trên
+                                            ảnh:
+                                        </p>
+                                        <ol class="text-muted mb-0 ps-3" style="font-size: 10px;">
+                                            <li><strong>Sender thực tế:</strong>
+                                                <code>...@kutaukausudahtidakbahagia.online</code>
+                                            </li>
+                                            <li><strong>Hover Link:</strong> Rê chuột qua nút thấy link trỏ về
+                                                <code>https://mysp.ac/4DNE9...</code>
+                                            </li>
+                                            <li><strong>Cảnh báo khẩn cấp:</strong> Đe dọa khóa tài khoản nếu không thực
+                                                hiện xác minh ngay.</li>
+                                            <li><strong>File/Link độc hại:</strong> Gửi kèm file nén
+                                                <code>.rar</code>/<code>.zip</code> hoặc link giả mạo ngân hàng.
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="phishingModal1" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/phishing1.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to 1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="phishingModal2" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/phishing2.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to 2">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="phishingModal3" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/phishing3.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to 3">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="phishingModal4" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/phishing4.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to 4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="phishingModal5" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/phishing5.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to 5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="phishingModal6" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content bg-transparent border-0">
+                                            <div class="modal-header border-0 pb-0">
+                                                <button type="button" class="btn-close btn-close-white ms-auto"
+                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center pt-1">
+                                                <img src="/statics/images/phishing6.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to 6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- 3. Deepfake Video -->
+                        <div class="col-md-4">
+                            <div class="card p-3 h-100 border-top border-purple border-4"
+                                style="border-top-color: #a855f7 !important;">
+                                <h5 class="fw-bold" style="color: #a855f7;">
+                                    <i class="fa-solid fa-video me-2"></i>3. Deepfake Video / Vishing Call
+                                </h5>
+                                <ul class="small mt-2 mb-2">
+                                    <li><strong>Khuôn mặt:</strong> Chuyển động thiếu tự nhiên, góc nghiêng bị lỗi hoặc
+                                        viền mặt không tiệp nền.</li>
+                                    <li><strong>Đôi mắt:</strong> Ít hoặc không chớp mắt, ánh mắt vô hồn, thiếu cảm xúc
+                                        hoặc hướng nhìn lệch.</li>
+                                    <li><strong>Miệng & Âm thanh:</strong> Khẩu hình không khớp lời thoại, giọng nói đều
+                                        đều hoặc có tiếng ồn kim loại.</li>
+                                    <li><strong>Da & Ánh sáng:</strong> Da quá mịn thiếu lỗ chân lông, ánh sáng phản
+                                        chiếu trên mặt không đồng nhất.</li>
+                                </ul>
+
+                                <div class="bg-light p-2 rounded border mt-auto">
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
                                         <span class="badge text-white" style="background-color: #a855f7;">
                                             <i class="fa-solid fa-circle-play me-1"></i>Ví dụ thực tế
                                         </span>
                                         <small class="text-muted" style="font-size: 10px;">Deepfake Người thân</small>
                                     </div>
 
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal"
-                                        class="d-block position-relative role-button overflow-hidden rounded border shadow-sm mb-2">
-                                        <video src="/statics/videos/test2.mp4" class="w-100 rounded"
-                                            style="max-height: 140px; object-fit: cover;" muted></video>
-                                        <div class="position-absolute top-50 start-50 translate-middle text-white bg-dark bg-opacity-75 rounded-circle p-2 d-flex align-items-center justify-content-center"
-                                            style="width: 40px; height: 40px;">
-                                            <i class="fa-solid fa-play fs-6"></i>
+
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-6">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#videoModal"
+                                                class="d-block position-relative role-button overflow-hidden rounded border shadow-sm bg-black h-100">
+                                                <video src="/statics/videos/test1.mp4" class="w-100 rounded h-100"
+                                                    style="height: 140px; object-fit: cover;" muted></video>
+                                                <div class="position-absolute top-50 start-50 translate-middle text-white bg-dark bg-opacity-75 rounded-circle p-2 d-flex align-items-center justify-content-center"
+                                                    style="width: 32px; height: 32px;">
+                                                    <i class="fa-solid fa-play" style="font-size: 11px;"></i>
+                                                </div>
+                                                <span
+                                                    class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                    style="font-size: 9px;">
+                                                    <i class="fa-solid fa-video me-1"></i>Video
+                                                </span>
+                                            </a>
                                         </div>
-                                        <span
-                                            class="position-absolute bottom-0 end-0 bg-dark text-white p-1 rounded-start opacity-75 small me-1 mb-1"
-                                            style="font-size: 10px;">
-                                            <i class="fa-solid fa-expand me-1"></i>
-                                        </span>
-                                    </a>
+
+                                        <div class="col-6">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#deepfakeImgModal"
+                                                class="d-block position-relative role-button overflow-hidden rounded border shadow-sm bg-white h-100">
+                                                <img src="/statics/images/deepfake.jpg" class="w-100 rounded h-100"
+                                                    style="height: 140px; object-fit: cover; object-position: top;"
+                                                    alt="Ví dụ Deepfake Ảnh">
+                                                <span
+                                                    class="position-absolute bottom-0 end-0 bg-dark text-white px-1 py-05 rounded-start opacity-75"
+                                                    style="font-size: 9px;">
+                                                    <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    </div>
 
                                     <div class="p-2 bg-white rounded border-start border-4"
                                         style="border-left-color: #a855f7 !important;">
                                         <p class="mb-1 text-dark fw-bold" style="font-size: 11px;">
                                             <i class="fa-solid fa-comment-dots me-1" style="color: #a855f7;"></i> Lời
-                                            thoại mẫu:
+                                            thoại:
                                         </p>
                                         <p class="fst-italic text-muted mb-2"
                                             style="font-size: 10px; line-height: 1.3;">
@@ -466,91 +753,42 @@
                                         <ul class="text-muted mb-0 ps-3" style="font-size: 10px;">
                                             <li>Tốc độ nói nhanh, hối thúc và dặn "gọi lại sau" để ngắt máy sớm.</li>
                                             <li>Khớp khẩu hình miệng không hoàn toàn trùng với âm thanh thoại.</li>
+                                            <li>Hình ảnh bị nhòe ở viền cằm, viền mặt bị méo khi di chuyển.</li>
                                         </ul>
                                     </div>
                                 </div>
 
-                                <!-- Modal Trình chiếu Video -->
                                 <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel"
                                     aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content bg-dark text-white border-0">
                                             <div class="modal-header border-secondary">
-                                                <h6 class="modal-title" id="videoModalLabel"><i
-                                                        class="fa-solid fa-video text-warning me-2"></i>Mô phỏng Cuộc
-                                                    gọi Deepfake Video</h6>
+                                                <h6 class="modal-title" id="videoModalLabel">
+                                                    <i class="fa-solid fa-video text-warning me-2"></i>Mô phỏng Cuộc gọi
+                                                    Deepfake Video
+                                                </h6>
                                                 <button type="button" class="btn-close btn-close-white"
                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body text-center p-0 bg-black">
-                                                <video src="/statics/videos/test2.mp4" class="w-100" controls
+                                                <video src="/statics/videos/test1.mp4" class="w-100" controls
                                                     style="max-height: 480px;"></video>
                                             </div>
                                             <div class="modal-footer border-secondary justify-content-between">
-                                                <small class="text-muted"><i
+                                                <small class="text-muted">
+                                                    <i
                                                         class="fa-solid fa-triangle-exclamation text-warning me-1"></i>Tuyệt
                                                     đối xác minh qua số điện thoại di động chính thức trước khi chuyển
-                                                    tiền.</small>
+                                                    tiền.
+                                                </small>
                                                 <button type="button" class="btn btn-sm btn-secondary"
                                                     data-bs-dismiss="modal">Đóng</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- 3. Phân tích Email Phishing  -->
-                        <div class="col-md-4">
-                            <div class="card p-3 h-100 border-top border-warning border-4">
-                                <h5 class="fw-bold text-warning"><i class="fa-solid fa-file-invoice me-2"></i>3. Nhận
-                                    diện Email Phishing Thực tế</h5>
-                                <ul class="small mt-2 mb-2">
-                                    <li><strong>Mạo danh dịch vụ uy tín:</strong> Giả dạng thông báo khẩn từ Paypal,
-                                        Ngân hàng, Netflix...</li>
-                                    <li><strong>Domain gửi bất hợp pháp:</strong> Hiển thị tên hiển thị là
-                                        <code>service@paypal.com</code> nhưng đuôi email thực tế là
-                                        <code>@...online</code>.
-                                    </li>
-                                    <li><strong>Bẫy liên kết (Hover URL):</strong> Nút xác nhận trỏ về tên miền lạ độc
-                                        hại (VD: <code>mysp.ac/...</code>) thay vì trang chủ.</li>
-                                </ul>
-
-                                <div class="bg-light p-2 rounded border mt-auto">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <span class="badge bg-warning text-dark">
-                                            <i class="fa-solid fa-triangle-exclamation me-1"></i>Ví dụ thực tế
-                                        </span>
-                                        <small class="text-muted" style="font-size: 10px;">Nguồn: Malwarebytes</small>
-                                    </div>
-
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal"
-                                        class="d-block position-relative role-button">
-                                        <img src="/statics/images/test.jpg"
-                                            class="img-fluid rounded border shadow-sm mb-2 example-img"
-                                            alt="Ví dụ Email Phishing PayPal">
-                                        <span
-                                            class="position-absolute bottom-0 end-0 bg-dark text-white p-1 rounded-start opacity-75 small me-1 mb-3"
-                                            style="font-size: 10px;">
-                                            <i class="fa-solid fa-magnifying-glass-plus me-1"></i>
-                                        </span>
-                                    </a>
-
-                                    <div class="p-2 bg-white rounded border-start border-warning border-3">
-                                        <p class="mb-1 text-dark fw-bold" style="font-size: 11px;">
-                                            <i class="fa-solid fa-magnifying-glass me-1 text-danger"></i> Dấu hiệu soi
-                                            bẫy trên ảnh:
-                                        </p>
-                                        <ul class="text-muted mb-0 ps-3" style="font-size: 10px;">
-                                            <li>Sender thực tế: <code>...@kutaukausudahtidakbahagia.online</code></li>
-                                            <li>Link trỏ thực tế khi rê chuột: <code>https://mysp.ac/4DNE9...</code>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel"
-                                    aria-hidden="true">
+                                <div class="modal fade" id="deepfakeImgModal" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered modal-lg">
                                         <div class="modal-content bg-transparent border-0">
                                             <div class="modal-header border-0 pb-0">
@@ -558,11 +796,13 @@
                                                     data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body text-center pt-1">
-                                                <img src="/statics/images/test.jpg" class="img-fluid rounded shadow-lg">
+                                                <img src="/statics/images/deepfake.jpg"
+                                                    class="img-fluid rounded shadow-lg" alt="Phóng to Ảnh Deepfake">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -683,6 +923,8 @@
                     <div class="card p-4 mb-4">
                         <h5 class="fw-bold mb-3">Khảo sát Đầu ra (Post-Test)</h5>
                         <form id="formPostTest">
+
+                            <!-- Câu 1 -->
                             <div class="mb-4">
                                 <label class="form-label fw-bold">1. Phương pháp nào phòng chống lừa đảo CEO/Deepfake
                                     hiệu quả nhất?</label>
@@ -1122,7 +1364,7 @@
             document.getElementById('modalSimTitle').innerText = s.title;
             document.getElementById('modalSimContent').innerText = s.content || s.desc || '';
 
-            // Xử lý hiển thị video động
+            // Hiển thị video động
             const videoContainer = document.getElementById('modalVideoContainer');
             const videoSource = document.getElementById('modalVideoSource');
             const videoElement = document.getElementById('modalSimulationVideo');
