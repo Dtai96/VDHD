@@ -1400,26 +1400,6 @@
             }
         }
 
-        function analyzeThreatWithAI() {
-            const text = document.getElementById('aiInputText').value;
-            fetch('/api/analyze-threat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text })
-            }).then(r => r.json()).then(res => {
-                const area = document.getElementById('aiResultArea');
-                area.innerHTML = `
-                <div class="alert ${res.risk_level.includes('Cao') ? 'alert-danger' : 'alert-success'}">
-                    <h6 class="fw-bold mb-1">${res.risk_level}</h6>
-                    <p class="mb-1">${res.recommendation}</p>
-                    <ul class="mb-0 ps-3">
-                        ${res.reasons.map(r => `<li>${r}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
-            });
-        }
-
         function loadLeaderboard() {
             fetch('/api/get-leaderboard')
                 .then(r => r.json())
