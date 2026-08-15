@@ -837,6 +837,32 @@
                         </div>
                     </div>
 
+                    <!-- Khối hiển thị kết quả Mô phỏng -->
+                    <div class="row mb-4" id="sim-stats-overview">
+                        <div class="col-md-6 mb-2">
+                            <div class="card border-danger text-center shadow-sm">
+                                <div class="card-body py-3">
+                                    <h6 class="card-title text-danger fw-bold mb-1">
+                                        <i class="fas fa-exclamation-circle me-1"></i>Số lần sập bẫy
+                                    </h6>
+                                    <h2 class="display-5 fw-bold text-danger my-1" id="stat-trap-count">0</h2>
+                                    <small class="text-muted">Gồm click link, mở file độc, nhập thông tin</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <div class="card border-success text-center shadow-sm">
+                                <div class="card-body py-3">
+                                    <h6 class="card-title text-success fw-bold mb-1">
+                                        <i class="fas fa-shield-alt me-1"></i>Số lần xử lý chính xác
+                                    </h6>
+                                    <h2 class="display-5 fw-bold text-success my-1" id="stat-report-count">0</h2>
+                                    <small class="text-muted">Phát hiện và báo cáo sự cố thành công</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row g-4" id="scenariosContainer"></div>
 
                     <div class="modal fade" id="scenarioModal" tabindex="-1">
@@ -884,15 +910,17 @@
                                 <h5 class="fw-bold mb-3">🏆 Bảng Xếp Hạng An Toàn Cá Nhân</h5>
                                 <table class="table align-middle">
                                     <thead class="table-dark">
-                                        <tr>
-                                            <th>Hạng</th>
-                                            <th>Tên Người Dùng</th>
-                                            <th>Điểm</th>
-                                            <th>Báo cáo</th>
-                                            <th>Sập bẫy</th>
-                                            <th>Rủi ro</th>
-                                        </tr>
-                                    </thead>
+    <tr>
+        <th>Hạng</th>
+        <th>Tên Người Dùng</th>
+        <th>Pre-test</th>
+        <th>Post-test</th>
+        <th>Tiến bộ</th>
+        <th>Báo cáo</th>
+        <th>Sập bẫy</th>
+        <th>Rủi ro</th>
+    </tr>
+</thead>
                                     <tbody id="leaderboardBody"></tbody>
                                 </table>
                             </div>
@@ -1384,39 +1412,552 @@
             // Mở Modal
             new bootstrap.Modal(document.getElementById('scenarioModal')).show();
         }
+        // Cập nhật thống kê Số lần sập bẫy & Xử lý chính xác
+        async function loadSimStats() {
+            try {
+                const res = await fetch('/api/sim/stats');
+                const result = await res.json();
 
-        function handleSimAction(action) {
-            const s = window.currentScenarios.find(item => item.id === currentScenarioId);
-            const feedback = document.getElementById('modalTrapFeedback');
+                if (result.success && result.data) {
 
-            if (action === 'trap') {
-                feedback.className = "alert alert-danger mt-3";
-                feedback.innerHTML = "<strong>❌ BẠN ĐÃ SẬP BẪY!</strong><br>" + s.trap_reason;
-                feedback.classList.remove('d-none');
-            } else {
-                feedback.className = "alert alert-success mt-3";
-                feedback.innerHTML = "<strong>✅ XỬ LÝ CHÍNH XÁC!</strong><br>Bạn đã báo cáo mối đe dọa an ninh mạng thành công cho hệ thống SOC/Security.";
-                feedback.classList.remove('d-none');
+                    const data = result.data;
+
+                    // =====================================================
+                    // LẤY SỐ TỔNG TỪ SERVER
+                    // =====================================================
+                    const totalTraps =
+                        result.total_traps !== undefined
+                            ? result.total_traps
+                            : (
+                                (data.linkClicks || 0) +
+                                (data.sensitiveDataEntered || 0) +
+                                (data.attachmentOpened || 0)
+                            );
+
+                    const totalReports =
+                        result.total_reports !== undefined
+                            ? result.total_reports
+                            : (data.reportsSubmitted || 0);
+
+                    // =====================================================
+                    // DASHBOARD MÔ PHỎNG
+                    // =====================================================
+                    updateElementText(
+                        'total-trap-count',
+                        totalTraps
+                    );
+
+                    updateElementText(
+                        'total-report-count',
+                        totalReports
+                    );
+
+                    // =====================================================
+                    // THỐNG KÊ CHI TIẾT
+                    // =====================================================
+                    updateElementText(
+                        'stat-link-clicks',
+                        data.linkClicks || 0
+                    );
+
+                    updateElementText(
+                        'stat-sensitive-data',
+                        data.sensitiveDataEntered || 0
+                    );
+
+                    updateElementText(
+                        'stat-attachment-opened',
+                        data.attachmentOpened || 0
+                    );
+
+                    updateElementText(
+                        'stat-reports-submitted',
+                        totalReports
+                    );
+
+                    // =====================================================
+                    // ĐIỂM NHẬN DIỆN THEO DANH MỤC
+                    // =====================================================
+                    const rec = data.recognitionScores || {};
+
+                    updateElementText(
+                        'score-valid-email',
+                        rec.valid_email || 0
+                    );
+
+                    updateElementText(
+                        'score-phishing-url',
+                        rec.phishing_url || 0
+                    );
+
+                    updateElementText(
+                        'score-scam-call',
+                        rec.scam_call || 0
+                    );
+
+                    updateElementText(
+                        'score-deepfake-ai',
+                        rec.deepfake_ai || 0
+                    );
+                }
+
+            } catch (err) {
+                console.error(
+                    'Lỗi khi tải thống kê:',
+                    err
+                );
             }
         }
 
-        function loadLeaderboard() {
-            fetch('/api/get-leaderboard')
-                .then(r => r.json())
-                .then(res => {
-                    const tbody = document.getElementById('leaderboardBody');
-                    tbody.innerHTML = res.all_users.sort((a, b) => b.score - a.score).map((u, idx) => `
-                    <tr>
-                        <td>${idx === 0 ? '🥇 1' : idx === 1 ? '🥈 2' : idx === 2 ? '🥉 3' : idx + 1}</td>
-                        <td class="fw-bold">${u.name} ${u.role === 'admin' ? '<span class="badge bg-danger">Admin</span>' : ''}</td>
-                        <td><span class="badge bg-primary">${u.score}/100</span></td>
-                        <td><span class="badge bg-success">${u.reports} lần</span></td>
-                        <td><span class="badge bg-danger">${u.traps} lần</span></td>
-                        <td><span class="badge ${u.risk_level === 'Thấp' ? 'bg-success' : 'bg-danger'}">${u.risk_level}</span></td>
-                    </tr>
-                `).join('');
-                });
+        // Tự động tải thống kê khi mở trang
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSimStats();
+        });
+
+        // Biến lưu trữ trạng thái hiện tại
+        // Biến toàn cục
+        let currentRole = 'accountant';
+        let currentScenarios = [];
+
+        // 1. Tải chỉ số thống kê & Cập nhật Dashboard
+        async function loadSimStats() {
+            try {
+                const res = await fetch('/api/sim/stats');
+                const result = await res.json();
+
+                if (result.success && result.data) {
+                    const data = result.data;
+
+                    // Tính tổng số lần sập bẫy và tổng xử lý chính xác
+                    const totalTraps = (data.linkClicks || 0) + (data.sensitiveDataEntered || 0) + (data.attachmentOpened || 0);
+                    const totalReports = data.reportsSubmitted || 0;
+
+                    // Cập nhật 2 thẻ lớn trên Dashboard
+                    updateElementText('total-trap-count', totalTraps);
+                    updateElementText('total-report-count', totalReports);
+
+                    // Cập nhật các chỉ số chi tiết
+                    updateElementText('stat-link-clicks', data.linkClicks || 0);
+                    updateElementText('stat-sensitive-data', data.sensitiveDataEntered || 0);
+                    updateElementText('stat-attachment-opened', data.attachmentOpened || 0);
+                    updateElementText('stat-reports-submitted', totalReports);
+
+                    // Cập nhật điểm nhận diện theo danh mục
+                    const rec = data.recognitionScores || {};
+                    updateElementText('score-valid-email', rec.valid_email || 0);
+                    updateElementText('score-phishing-url', rec.phishing_url || 0);
+                    updateElementText('score-scam-call', rec.scam_call || 0);
+                    updateElementText('score-deepfake-ai', rec.deepfake_ai || 0);
+                }
+            } catch (err) {
+                console.error('Lỗi khi tải thống kê:', err);
+            }
         }
+
+        // 2. Lấy danh sách kịch bản theo Vai trò
+        async function loadScenarios(role = 'accountant') {
+            currentRole = role;
+            try {
+                const res = await fetch(`/api/sim/scenarios?role=${role}`);
+                const result = await res.json();
+
+                if (result.success) {
+                    currentScenarios = result.scenarios;
+                    window.currentScenarios = result.scenarios; // Đảm bảo đồng bộ với window
+                    if (typeof renderScenarioList === 'function') {
+                        renderScenarioList(currentScenarios);
+                    }
+                }
+            } catch (err) {
+                console.error('Lỗi khi tải kịch bản:', err);
+            }
+        }
+
+        // 3. Gửi hành vi người dùng lên Flask Server
+        async function trackSimAction(
+            actionType,
+            scenarioId,
+            scenarioType = null
+        ) {
+            try {
+
+                const res = await fetch(
+                    '/api/sim/track-action',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            scenario_id: scenarioId,
+                            action_type: actionType,
+                            scenario_type: scenarioType
+                        })
+                    }
+                );
+
+                const result = await res.json();
+
+                if (result.success) {
+
+                    // =================================================
+                    // CẬP NHẬT SỐ TRÊN MÀN HÌNH NGAY LẬP TỨC
+                    // =================================================
+                    updateElementText(
+                        'total-trap-count',
+                        result.trap_count
+                    );
+
+                    updateElementText(
+                        'total-report-count',
+                        result.correct_count
+                    );
+
+                    updateElementText(
+                        'stat-trap-count',
+                        result.trap_count
+                    );
+
+                    updateElementText(
+                        'stat-report-count',
+                        result.correct_count
+                    );
+
+                    updateElementText(
+                        'stat-reports-submitted',
+                        result.correct_count
+                    );
+
+                    // =================================================
+                    // HIỂN THỊ SỐ NGAY TRONG MODAL
+                    // =================================================
+                    const feedback =
+                        document.getElementById(
+                            'modalTrapFeedback'
+                        );
+
+                    if (feedback) {
+
+                        if (actionType === 'trap') {
+
+                            feedback.className =
+                                'alert alert-danger mt-3';
+
+                            const scenariosList =
+                                window.currentScenarios ||
+                                currentScenarios;
+
+                            const currentScenario =
+                                scenariosList.find(
+                                    item =>
+                                        item.id === scenarioId
+                                );
+
+                            feedback.innerHTML = `
+                        <strong>
+                            ❌ BẠN ĐÃ SẬP BẪY!
+                        </strong>
+
+                        <br>
+
+                        ${currentScenario?.trap_reason ||
+                                'Đã ghi nhận hành vi sập bẫy.'
+                                }
+
+                        <hr class="my-2">
+
+                        <strong>
+                            🔴 Tổng số lần sập bẫy:
+                            ${result.trap_count}
+                        </strong>
+
+                        <br>
+
+                        <span>
+                            🟢 Tổng số lần xử lý chính xác:
+                            ${result.correct_count}
+                        </span>
+                    `;
+
+                        } else if (actionType === 'report') {
+
+                            feedback.className =
+                                'alert alert-success mt-3';
+
+                            feedback.innerHTML = `
+                        <strong>
+                            ✅ XỬ LÝ CHÍNH XÁC!
+                        </strong>
+
+                        <br>
+
+                        Bạn đã báo cáo mối đe dọa
+                        an ninh mạng thành công.
+
+                        <hr class="my-2">
+
+                        <strong>
+                            🟢 Tổng số lần xử lý chính xác:
+                            ${result.correct_count}
+                        </strong>
+
+                        <br>
+
+                        <span>
+                            🔴 Tổng số lần sập bẫy:
+                            ${result.trap_count}
+                        </span>
+                    `;
+
+                        }
+
+                        feedback.classList.remove('d-none');
+                    }
+
+                    // =================================================
+                    // CẬP NHẬT USER HIỆN TẠI
+                    // =================================================
+                    if (
+                        typeof fetchCurrentUser ===
+                        'function'
+                    ) {
+                        fetchCurrentUser();
+                    }
+
+                    // =================================================
+                    // CẬP NHẬT LẠI THỐNG KÊ
+                    // =================================================
+                    await loadSimStats();
+                }
+
+            } catch (err) {
+
+                console.error(
+                    'Lỗi khi ghi nhận hành vi:',
+                    err
+                );
+            }
+        }
+        // 4. Xử lý sự kiện khi bấm nút trong Modal (Đã sửa lỗi không nhảy số)
+        async function handleSimAction(action) {
+
+            const scenariosList =
+                window.currentScenarios ||
+                currentScenarios;
+
+            const s = scenariosList.find(
+                item => item.id === currentScenarioId
+            );
+
+            // Gửi lên server.
+            // Server sẽ:
+            // 1. Tăng traps hoặc reports
+            // 2. Lưu vào tài khoản
+            // 3. Trả số mới
+            // 4. Cập nhật giao diện
+            await trackSimAction(
+                action,
+                currentScenarioId,
+                s?.type
+            );
+        }
+
+        // 5. Gửi bài kiểm tra Pre-test / Post-test
+        async function submitQuiz(testType, userAnswers) {
+            try {
+                const res = await fetch('/api/quiz/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        role: currentRole,
+                        test_type: testType,
+                        answers: userAnswers
+                    })
+                });
+                const result = await res.json();
+
+                if (result.success) {
+                    alert(`Nộp bài thành công!\nĐiểm số: ${result.score}/${result.total} (${result.percentage}%)`);
+                    return result;
+                } else {
+                    alert(result.message || 'Nộp bài thất bại.');
+                }
+            } catch (err) {
+                console.error('Lỗi khi nộp bài quiz:', err);
+            }
+        }
+
+        // Hàm phụ trợ cập nhật Text DOM
+        function updateElementText(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+
+        // Khởi tạo ứng dụng
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSimStats();
+            loadScenarios(currentRole);
+        });
+
+        function loadLeaderboard() {
+    fetch('/api/get-leaderboard')
+        .then(r => r.json())
+        .then(res => {
+
+            const tbody =
+                document.getElementById('leaderboardBody');
+
+            if (!tbody) return;
+
+            // ==================================================
+            // XẾP HẠNG THEO POST-TEST
+            // KHÔNG XẾP THEO PRE-TEST
+            // ==================================================
+            const users = [...(res.all_users || [])]
+                .sort((a, b) => {
+
+                    const postA =
+                        Number(a.post_score ?? 0);
+
+                    const postB =
+                        Number(b.post_score ?? 0);
+
+                    return postB - postA;
+                });
+
+            tbody.innerHTML = users.map((u, idx) => {
+
+                // ==============================================
+                // ĐIỂM PRE-TEST
+                // ==============================================
+                const preScore =
+                    Number(u.pre_score ?? 0);
+
+                // ==============================================
+                // ĐIỂM POST-TEST
+                // ==============================================
+                const postScore =
+                    Number(u.post_score ?? 0);
+
+                // ==============================================
+                // MỨC TIẾN BỘ
+                // ==============================================
+                const growth =
+                    postScore - preScore;
+
+                // ==============================================
+                // MÀU TIẾN BỘ
+                // ==============================================
+                let growthClass = 'bg-secondary';
+
+                if (growth > 0) {
+                    growthClass = 'bg-success';
+                } else if (growth < 0) {
+                    growthClass = 'bg-danger';
+                } else {
+                    growthClass = 'bg-secondary';
+                }
+
+                // ==============================================
+                // HIỂN THỊ POST-TEST
+                // ==============================================
+                const postDisplay =
+                    u.post_score !== undefined &&
+                    u.post_score !== null
+                        ? `${postScore}/100`
+                        : 'Chưa làm';
+
+                return `
+                    <tr>
+
+                        <!-- HẠNG -->
+                        <td>
+                            ${
+                                idx === 0
+                                    ? '🥇 1'
+                                    : idx === 1
+                                        ? '🥈 2'
+                                        : idx === 2
+                                            ? '🥉 3'
+                                            : idx + 1
+                            }
+                        </td>
+
+                        <!-- TÊN -->
+                        <td class="fw-bold">
+                            ${u.name || 'Chưa cập nhật'}
+
+                            ${
+                                u.role === 'admin'
+                                    ? '<span class="badge bg-danger ms-1">Admin</span>'
+                                    : ''
+                            }
+                        </td>
+
+                        <!-- PRE-TEST -->
+                        <td>
+                            <span class="badge bg-secondary">
+                                ${preScore}/100
+                            </span>
+                        </td>
+
+                        <!-- POST-TEST -->
+                        <td>
+                            <span class="badge bg-primary">
+                                ${postDisplay}
+                            </span>
+                        </td>
+
+                        <!-- TIẾN BỘ -->
+                        <td>
+                            <span class="badge ${growthClass}">
+                                ${
+                                    growth > 0
+                                        ? '+'
+                                        : ''
+                                }${growth}
+                            </span>
+                        </td>
+
+                        <!-- BÁO CÁO -->
+                        <td>
+                            <span class="badge bg-success">
+                                ${u.reports || 0} lần
+                            </span>
+                        </td>
+
+                        <!-- SẬP BẪY -->
+                        <td>
+                            <span class="badge bg-danger">
+                                ${u.traps || 0} lần
+                            </span>
+                        </td>
+
+                        <!-- RỦI RO -->
+                        <td>
+                            <span class="badge ${
+                                u.risk_level === 'Thấp'
+                                    ? 'bg-success'
+                                    : u.risk_level === 'Trung bình'
+                                        ? 'bg-warning text-dark'
+                                        : 'bg-danger'
+                            }">
+                                ${u.risk_level || 'Chưa đánh giá'}
+                            </span>
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join('');
+        })
+        .catch(err => {
+            console.error(
+                'Lỗi khi tải bảng xếp hạng:',
+                err
+            );
+        });
+}
 
         function submitPostTest() {
             const form = document.getElementById('formPostTest');
@@ -1498,6 +2039,23 @@
                     }
                 });
         }
+        // ==========================================================
+        // TỰ ĐỘNG CẬP NHẬT ADMIN DASHBOARD
+        // Mỗi 5 giây kiểm tra số liệu mới
+        // ==========================================================
+        setInterval(() => {
+
+            const adminTab =
+                document.getElementById('tab-admin');
+
+            if (
+                adminTab &&
+                !adminTab.classList.contains('d-none')
+            ) {
+                loadAdminDashboard();
+            }
+
+        }, 5000);
 
         function openAddUserModal() {
             document.getElementById('editUserId').value = '';

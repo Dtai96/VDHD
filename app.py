@@ -2,6 +2,7 @@ import threading
 import webview
 from functools import wraps
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
+from datetime import datetime
 
 app = Flask(__name__, static_folder='statics')
 app.secret_key = "cyberaware_secret_key_protection_2026"  # Khóa bảo mật Flask Session
@@ -307,6 +308,28 @@ ROLE_SCENARIOS = {
     ]
 }
 
+def find_scenario_by_id(scenario_id):
+    """Tìm kịch bản theo ID trong tất cả các vai trò"""
+    for role, scenarios in ROLE_SCENARIOS.items():
+        for scenario in scenarios:
+            if scenario.get('id') == scenario_id:
+                return role, scenario
+    return None, None
+
+def detect_scenario_category(scenario):
+    """Phân loại nhóm nhận diện dựa trên thuộc tính kịch bản"""
+    if not scenario:
+        return 'phishing_url'
+    if 'video_url' in scenario or scenario.get('type') == 'Deepfake Video Call':
+        return 'deepfake_ai'
+    
+    s_type = scenario.get('type', '')
+    if 'Vishing' in s_type or 'Social Engineering' in s_type:
+        return 'scam_call'
+    elif 'Phishing' in s_type or s_type == 'phishing_link':
+        return 'phishing_url'
+    return 'valid_email'
+
 # --- ROUTES ĐĂNG NHẬP / ĐĂNG KÝ / ĐĂNG XUẤT ---
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -402,22 +425,359 @@ def calculate_test_score(data):
         if data.get(key) == correct_value:
             score += 10
     return score
+@app.route('/api/sim/scenarios', methods=['GET'])
+def get_scenarios():
+    """Lấy danh sách kịch bản giả lập theo Vai trò"""
+    role = request.args.get('role', 'accountant')
+    scenarios = ROLE_SCENARIOS.get(role, [])
+    return jsonify({
+        'success': True,
+        'role': role,
+        'scenarios': scenarios
+    })
 
+@app.route('/api/sim/stats', methods=['GET'])
+@login_required
+def get_sim_stats():
+    """Lấy thống kê mô phỏng của tài khoản hiện tại."""
+
+    # Tìm user hiện tại
+    user = next(
+        (
+            u for u in db_users
+            if u['id'] == session.get('user_id')
+        ),
+        None
+    )
+
+    if not user:
+        return jsonify({
+            'success': False,
+            'message': 'Không tìm thấy người dùng.'
+        }), 404
+
+    # Khởi tạo session stats nếu chưa có
+    if 'sim_stats' not in session:
+        session['sim_stats'] = {
+            'linkClicks': 0,
+            'sensitiveDataEntered': 0,
+            'attachmentOpened': 0,
+            'reportsSubmitted': 0,
+            'recognitionScores': {
+                'valid_email': 0,
+                'phishing_url': 0,
+                'scam_call': 0,
+                'deepfake_ai': 0
+            }
+        }
+
+    stats = session['sim_stats']
+
+    # ==========================================================
+    # ĐỒNG BỘ TỔNG SỐ VỚI TÀI KHOẢN
+    # ==========================================================
+    user_traps = user.get('traps', 0)
+    user_reports = user.get('reports', 0)
+
+    # Số hành động chi tiết hiện có trong session
+    detail_traps = (
+        stats.get('linkClicks', 0)
+        + stats.get('sensitiveDataEntered', 0)
+        + stats.get('attachmentOpened', 0)
+    )
+
+    # Nếu session chưa có dữ liệu nhưng tài khoản đã có thống kê
+    # thì đưa phần chênh lệch vào linkClicks để tổng luôn khớp.
+    if detail_traps < user_traps:
+        stats['linkClicks'] += user_traps - detail_traps
+
+    # Đồng bộ số báo cáo
+    stats['reportsSubmitted'] = user_reports
+
+    session.modified = True
+
+    return jsonify({
+        'success': True,
+        'data': stats,
+
+        # Trả thêm tổng để frontend dùng trực tiếp
+        'total_traps': user_traps,
+        'total_reports': user_reports
+    })
+
+@app.route('/api/sim/track-action', methods=['POST'])
+@login_required
+def track_sim_action():
+    """Ghi nhận hành động mô phỏng và cập nhật thống kê của tài khoản."""
+
+    data = request.get_json() or {}
+
+    scenario_id = data.get('scenario_id')
+    action_type = data.get('action_type')
+
+    # Tìm kịch bản
+    _, scenario = find_scenario_by_id(scenario_id)
+
+    scenario_type = (
+        scenario.get('type')
+        if scenario
+        else data.get('scenario_type')
+    )
+
+    # ==========================================================
+    # LẤY TÀI KHOẢN ĐANG ĐĂNG NHẬP
+    # ==========================================================
+    user = next(
+        (
+            u for u in db_users
+            if u['id'] == session.get('user_id')
+        ),
+        None
+    )
+
+    if not user:
+        return jsonify({
+            'success': False,
+            'message': 'Không tìm thấy tài khoản người dùng.'
+        }), 404
+
+    # ==========================================================
+    # KHỞI TẠO THỐNG KÊ TRONG SESSION NẾU CHƯA CÓ
+    # ==========================================================
+    if 'sim_stats' not in session:
+        session['sim_stats'] = {
+            'linkClicks': 0,
+            'sensitiveDataEntered': 0,
+            'attachmentOpened': 0,
+            'reportsSubmitted': 0,
+            'recognitionScores': {
+                'valid_email': 0,
+                'phishing_url': 0,
+                'scam_call': 0,
+                'deepfake_ai': 0
+            }
+        }
+
+    stats = session['sim_stats']
+
+    # Đảm bảo tài khoản luôn có 2 trường thống kê
+    if 'traps' not in user:
+        user['traps'] = 0
+
+    if 'reports' not in user:
+        user['reports'] = 0
+
+    # ==========================================================
+    # 1. NGƯỜI DÙNG BẤM "THỰC HIỆN YÊU CẦU"
+    # ==========================================================
+    if action_type == 'trap':
+
+        # Tăng số lần sập bẫy của tài khoản
+        user['traps'] += 1
+
+        # Cập nhật thống kê chi tiết
+        if scenario_type in ['Phishing', 'phishing_link']:
+
+            stats['linkClicks'] += 1
+
+        elif scenario_type in [
+            'Deepfake Video Call',
+            'otp_transfer'
+        ]:
+
+            stats['sensitiveDataEntered'] += 1
+
+        elif scenario_type in [
+            'Social Engineering',
+            'malicious_attachment'
+        ]:
+
+            stats['attachmentOpened'] += 1
+
+        else:
+
+            stats['linkClicks'] += 1
+
+    # ==========================================================
+    # 2. NGƯỜI DÙNG BẤM "BÁO CÁO SỰ CỐ"
+    # ==========================================================
+    elif action_type == 'report':
+
+        # Tăng số lần báo cáo chính xác của tài khoản
+        user['reports'] += 1
+
+        # Thống kê session
+        stats['reportsSubmitted'] += 1
+
+        category = detect_scenario_category(scenario)
+
+        if category not in stats['recognitionScores']:
+            stats['recognitionScores'][category] = 0
+
+        stats['recognitionScores'][category] += 1
+
+    else:
+        return jsonify({
+            'success': False,
+            'message': 'Loại hành động không hợp lệ.'
+        }), 400
+
+    # ==========================================================
+    # TÍNH LẠI MỨC RỦI RO
+    # ==========================================================
+    traps = user.get('traps', 0)
+    score = user.get('score', 0)
+
+    if traps >= 5 or score < 30:
+        user['risk_level'] = 'Rất Cao'
+
+    elif traps >= 3 or score < 50:
+        user['risk_level'] = 'Cao'
+
+    elif traps >= 1 or score < 75:
+        user['risk_level'] = 'Trung bình'
+
+    else:
+        user['risk_level'] = 'Thấp'
+
+    # ==========================================================
+    # TÍNH TỔNG
+    # ==========================================================
+    total_traps = user.get('traps', 0)
+    total_reports = user.get('reports', 0)
+
+    session.modified = True
+
+    # ==========================================================
+    # TRẢ KẾT QUẢ CHO FRONTEND
+    # ==========================================================
+    return jsonify({
+        'success': True,
+
+        'action_type': action_type,
+
+        # Thống kê của tài khoản
+        'trap_count': total_traps,
+        'correct_count': total_reports,
+
+        # Thông tin user mới nhất
+        'user': {
+            'id': user['id'],
+            'username': user['username'],
+            'name': user['name'],
+            'score': user.get('score', 0),
+            'traps': total_traps,
+            'reports': total_reports,
+            'risk_level': user.get('risk_level', 'Thấp')
+        },
+
+        # Thống kê mô phỏng
+        'stats': stats
+    })
+
+@app.route('/api/sim/check-click', methods=['GET', 'POST'])
+def check_simulation_interaction():
+    """Ghi nhận log tương tác mô phỏng an toàn"""
+    if request.method == 'POST' and request.is_json:
+        data = request.json or {}
+        user_id = data.get('user_id', 'anonymous')
+        scenario_id = data.get('scenario_id', 'unknown')
+    else:
+        user_id = request.args.get('user_id', 'anonymous')
+        scenario_id = request.args.get('scenario_id', 'unknown')
+
+    log_data = {
+        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'user_id': user_id,
+        'scenario_id': scenario_id,
+        'ip_address': request.remote_addr,
+        'user_agent': request.headers.get('User-Agent')
+    }
+
+    print(f"[SIMULATION LOG] {log_data['timestamp']} - User: {user_id} | Scenario: {scenario_id}")
+
+    if 'sim_stats' not in session:
+        session['sim_stats'] = {
+            'linkClicks': 0,
+            'sensitiveDataEntered': 0,
+            'attachmentOpened': 0,
+            'reportsSubmitted': 0,
+            'recognitionScores': {'valid_email': 0, 'phishing_url': 0, 'scam_call': 0, 'deepfake_ai': 0}
+        }
+
+    session['sim_stats']['linkClicks'] += 1
+    session.modified = True
+
+    return jsonify({
+        'success': True,
+        'message': 'Đã ghi nhận tương tác mô phỏng an toàn',
+        'logged_event': log_data,
+        'stats': session['sim_stats']
+    }), 200
+
+@app.route('/api/quiz/submit', methods=['POST'])
+def submit_quiz():
+    """Nộp bài kiểm tra Pre-test/Post-test"""
+    data = request.get_json() or {}
+    role = data.get('role', 'accountant')
+    test_type = data.get('test_type', 'pre_test')
+    user_answers = data.get('answers', {})
+
+    role_scenarios_list = ROLE_SCENARIOS.get(role, [])
+    total_questions = len(role_scenarios_list)
+
+    if total_questions == 0:
+        return jsonify({'success': False, 'message': 'Không tìm thấy kịch bản'}), 400
+
+    correct_count = sum(1 for s in role_scenarios_list if user_answers.get(s['id']) == 'report')
+
+    if 'quiz_results' not in session:
+        session['quiz_results'] = {}
+
+    percentage = round((correct_count / total_questions) * 100, 1)
+    session['quiz_results'][test_type] = {
+        'role': role,
+        'score': correct_count,
+        'total': total_questions,
+        'percentage': percentage
+    }
+    session.modified = True
+
+    return jsonify({
+        'success': True,
+        'test_type': test_type,
+        'role': role,
+        'score': correct_count,
+        'total': total_questions,
+        'percentage': percentage,
+        'results': session['quiz_results']
+    })
 @app.route('/api/submit-pre-test', methods=['POST'])
 @login_required
 def submit_pre_test():
     data = request.get_json() or {}
     score = calculate_test_score(data)
 
-    user = next((u for u in db_users if u['id'] == session.get('user_id')), None)
+    user = next(
+        (
+            u for u in db_users
+            if u['id'] == session.get('user_id')
+        ),
+        None
+    )
+
     if user:
+        # Chỉ lưu điểm đầu vào
         user['pre_score'] = score
-        user['score'] = score
+
         if data.get("user_name"):
             user['name'] = data.get("user_name")
             session['name'] = user['name']
 
-    return jsonify({"status": "success", "score": score})
+    return jsonify({
+        "status": "success",
+        "score": score
+    })
 
 @app.route('/api/get-role-scenarios/<role_id>', methods=['GET'])
 @login_required
@@ -436,28 +796,58 @@ def submit_post_test():
     data = request.get_json() or {}
     post_score = calculate_test_score(data)
 
-    user = next((u for u in db_users if u['id'] == session.get('user_id')), None)
+    user = next(
+        (
+            u for u in db_users
+            if u['id'] == session.get('user_id')
+        ),
+        None
+    )
+
     pre_score = 0
     growth = 0
     unlocked_badges = []
 
     if user:
+        # ==========================================
+        # LẤY ĐIỂM PRE-TEST
+        # ==========================================
         pre_score = user.get('pre_score', 0)
+
+        # ==========================================
+        # LƯU ĐIỂM POST-TEST
+        # ==========================================
         user['post_score'] = post_score
-        user['score'] = max(post_score, user.get('score', 0))
+
+        # QUAN TRỌNG:
+        # Điểm dùng cho bảng xếp hạng = POST-TEST
+        user['score'] = post_score
+
+        # ==========================================
+        # TÍNH MỨC TIẾN BỘ
+        # ==========================================
         growth = post_score - pre_score
-        if user['score'] >= 75:
-            unlocked_badges.append("Bậc Thầy Nhận Thức An Ninh Mạng")
+
+        # ==========================================
+        # HUY HIỆU
+        # ==========================================
+        if post_score >= 75:
+            unlocked_badges.append(
+                "Bậc Thầy Nhận Thức An Ninh Mạng"
+            )
 
     return jsonify({
         "status": "success",
         "pre_score": pre_score,
         "post_score": post_score,
         "growth": growth,
-        "game_score": user['score'] if user else post_score,
+
+        # Điểm dùng để xếp hạng
+        "ranking_score": post_score,
+
+        "game_score": post_score,
         "unlocked_badges": unlocked_badges
     })
-
 # --- API ADMIN (CRUD USER & ANALYTICS) ---
 
 @app.route('/api/get-admin-analytics', methods=['GET'])
