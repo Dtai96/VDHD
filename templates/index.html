@@ -1422,9 +1422,7 @@
 
                     const data = result.data;
 
-                    // =====================================================
                     // LẤY SỐ TỔNG TỪ SERVER
-                    // =====================================================
                     const totalTraps =
                         result.total_traps !== undefined
                             ? result.total_traps
@@ -1439,9 +1437,9 @@
                             ? result.total_reports
                             : (data.reportsSubmitted || 0);
 
-                    // =====================================================
+
                     // DASHBOARD MÔ PHỎNG
-                    // =====================================================
+
                     updateElementText(
                         'total-trap-count',
                         totalTraps
@@ -1452,9 +1450,9 @@
                         totalReports
                     );
 
-                    // =====================================================
+                    
                     // THỐNG KÊ CHI TIẾT
-                    // =====================================================
+                    
                     updateElementText(
                         'stat-link-clicks',
                         data.linkClicks || 0
@@ -1475,9 +1473,9 @@
                         totalReports
                     );
 
-                    // =====================================================
+                    
                     // ĐIỂM NHẬN DIỆN THEO DANH MỤC
-                    // =====================================================
+                    
                     const rec = data.recognitionScores || {};
 
                     updateElementText(
@@ -1600,9 +1598,9 @@
 
                 if (result.success) {
 
-                    // =================================================
+
                     // CẬP NHẬT SỐ TRÊN MÀN HÌNH NGAY LẬP TỨC
-                    // =================================================
+
                     updateElementText(
                         'total-trap-count',
                         result.trap_count
@@ -1628,9 +1626,9 @@
                         result.correct_count
                     );
 
-                    // =================================================
+
                     // HIỂN THỊ SỐ NGAY TRONG MODAL
-                    // =================================================
+
                     const feedback =
                         document.getElementById(
                             'modalTrapFeedback'
@@ -1714,9 +1712,9 @@
                         feedback.classList.remove('d-none');
                     }
 
-                    // =================================================
+
                     // CẬP NHẬT USER HIỆN TẠI
-                    // =================================================
+
                     if (
                         typeof fetchCurrentUser ===
                         'function'
@@ -1724,9 +1722,9 @@
                         fetchCurrentUser();
                     }
 
-                    // =================================================
+
                     // CẬP NHẬT LẠI THỐNG KÊ
-                    // =================================================
+
                     await loadSimStats();
                 }
 
@@ -1809,10 +1807,10 @@
 
             if (!tbody) return;
 
-            // ==================================================
+
             // XẾP HẠNG THEO POST-TEST
             // KHÔNG XẾP THEO PRE-TEST
-            // ==================================================
+
             const users = [...(res.all_users || [])]
                 .sort((a, b) => {
 
@@ -1827,27 +1825,23 @@
 
             tbody.innerHTML = users.map((u, idx) => {
 
-                // ==============================================
+
                 // ĐIỂM PRE-TEST
-                // ==============================================
+
                 const preScore =
                     Number(u.pre_score ?? 0);
 
-                // ==============================================
+
                 // ĐIỂM POST-TEST
-                // ==============================================
+
                 const postScore =
                     Number(u.post_score ?? 0);
 
-                // ==============================================
                 // MỨC TIẾN BỘ
-                // ==============================================
                 const growth =
                     postScore - preScore;
 
-                // ==============================================
                 // MÀU TIẾN BỘ
-                // ==============================================
                 let growthClass = 'bg-secondary';
 
                 if (growth > 0) {
@@ -1858,9 +1852,7 @@
                     growthClass = 'bg-secondary';
                 }
 
-                // ==============================================
                 // HIỂN THỊ POST-TEST
-                // ==============================================
                 const postDisplay =
                     u.post_score !== undefined &&
                     u.post_score !== null
@@ -2039,10 +2031,7 @@
                     }
                 });
         }
-        // ==========================================================
-        // TỰ ĐỘNG CẬP NHẬT ADMIN DASHBOARD
-        // Mỗi 5 giây kiểm tra số liệu mới
-        // ==========================================================
+        // TỰ ĐỘNG CẬP NHẬT ADMIN DASHBOARD (5s)
         setInterval(() => {
 
             const adminTab =

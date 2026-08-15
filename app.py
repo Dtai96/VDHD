@@ -22,7 +22,7 @@ db_users = [
         "id": 1, 
         "username": "admin", 
         "password": "123", 
-        "name": "Quản Trị Viên", 
+        "name": "QTV", 
         "role": "admin", 
         "score": 100, 
         "reports": 5, 
@@ -473,9 +473,7 @@ def get_sim_stats():
 
     stats = session['sim_stats']
 
-    # ==========================================================
     # ĐỒNG BỘ TỔNG SỐ VỚI TÀI KHOẢN
-    # ==========================================================
     user_traps = user.get('traps', 0)
     user_reports = user.get('reports', 0)
 
@@ -524,9 +522,7 @@ def track_sim_action():
         else data.get('scenario_type')
     )
 
-    # ==========================================================
     # LẤY TÀI KHOẢN ĐANG ĐĂNG NHẬP
-    # ==========================================================
     user = next(
         (
             u for u in db_users
@@ -541,9 +537,7 @@ def track_sim_action():
             'message': 'Không tìm thấy tài khoản người dùng.'
         }), 404
 
-    # ==========================================================
     # KHỞI TẠO THỐNG KÊ TRONG SESSION NẾU CHƯA CÓ
-    # ==========================================================
     if 'sim_stats' not in session:
         session['sim_stats'] = {
             'linkClicks': 0,
@@ -567,9 +561,7 @@ def track_sim_action():
     if 'reports' not in user:
         user['reports'] = 0
 
-    # ==========================================================
     # 1. NGƯỜI DÙNG BẤM "THỰC HIỆN YÊU CẦU"
-    # ==========================================================
     if action_type == 'trap':
 
         # Tăng số lần sập bẫy của tài khoản
@@ -598,9 +590,9 @@ def track_sim_action():
 
             stats['linkClicks'] += 1
 
-    # ==========================================================
+
     # 2. NGƯỜI DÙNG BẤM "BÁO CÁO SỰ CỐ"
-    # ==========================================================
+
     elif action_type == 'report':
 
         # Tăng số lần báo cáo chính xác của tài khoản
@@ -622,9 +614,7 @@ def track_sim_action():
             'message': 'Loại hành động không hợp lệ.'
         }), 400
 
-    # ==========================================================
     # TÍNH LẠI MỨC RỦI RO
-    # ==========================================================
     traps = user.get('traps', 0)
     score = user.get('score', 0)
 
@@ -640,17 +630,13 @@ def track_sim_action():
     else:
         user['risk_level'] = 'Thấp'
 
-    # ==========================================================
     # TÍNH TỔNG
-    # ==========================================================
     total_traps = user.get('traps', 0)
     total_reports = user.get('reports', 0)
 
     session.modified = True
 
-    # ==========================================================
     # TRẢ KẾT QUẢ CHO FRONTEND
-    # ==========================================================
     return jsonify({
         'success': True,
 
@@ -809,28 +795,22 @@ def submit_post_test():
     unlocked_badges = []
 
     if user:
-        # ==========================================
+
         # LẤY ĐIỂM PRE-TEST
-        # ==========================================
         pre_score = user.get('pre_score', 0)
 
-        # ==========================================
         # LƯU ĐIỂM POST-TEST
-        # ==========================================
         user['post_score'] = post_score
 
         # QUAN TRỌNG:
         # Điểm dùng cho bảng xếp hạng = POST-TEST
         user['score'] = post_score
 
-        # ==========================================
+
         # TÍNH MỨC TIẾN BỘ
-        # ==========================================
         growth = post_score - pre_score
 
-        # ==========================================
         # HUY HIỆU
-        # ==========================================
         if post_score >= 75:
             unlocked_badges.append(
                 "Bậc Thầy Nhận Thức An Ninh Mạng"
